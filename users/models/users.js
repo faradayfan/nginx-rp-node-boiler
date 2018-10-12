@@ -4,8 +4,7 @@ const schema = {
     firstName: String,
     lastName: String,
     username: String,
-    passHash: String,
-    passSalt: String
+    password_hash: String,
 }
 
 const User = db.model('User', schema)
