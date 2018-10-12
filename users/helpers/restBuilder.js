@@ -7,10 +7,10 @@ const Joi = require('joi')
 module.exports = (router) => (model) => (config) => {
     router.get('/', async (req, res) => {
         try {
-            res.json(config.mapper(await model.find({})))
+            res.json(config.responseMapper(await model.find({})))
         } catch (error) {
-            const errorModel = config.errorMapper(error)
-            res.status(errorModel.status).json(errorModel)
+            const errorModel = config.responseMapper(error)
+            res.status(errorModel.statusCode).json(errorModel)
         }
     });
 
@@ -20,10 +20,10 @@ module.exports = (router) => (model) => (config) => {
             if (result.error)
                 throw new BadRequestError(result.error.details[0].message)
 
-            res.json(config.mapper(await model.create(req.body)))
+            res.json(config.responseMapper(await model.create(req.body)))
         } catch (error) {
-            const errorModel = config.errorMapper(error)
-            res.status(errorModel.status).json(errorModel)
+            const errorModel = config.responseMapper(error)
+            res.status(errorModel.statusCode).json(errorModel)
         }
     });
 
@@ -32,10 +32,10 @@ module.exports = (router) => (model) => (config) => {
             const result = await model.findById(req.params.id)
             if (!result)
                 throw new NotFoundError('Entity not found')
-            res.json(config.mapper(result))
+            res.json(config.responseMapper(result))
         } catch (error) {
-            const errorModel = config.errorMapper(error)
-            res.status(errorModel.status).json(errorModel)
+            const errorModel = config.responseMapper(error)
+            res.status(errorModel.statusCode).json(errorModel)
         }
     });
 
@@ -47,10 +47,10 @@ module.exports = (router) => (model) => (config) => {
             const result = await model.findByIdAndUpdate(req.params.id, req.body)
             if (!result)
                 throw new NotFoundError('Entity not found')
-            res.json(config.mapper(await model.findById(req.params.id)))
+            res.json(config.responseMapper(await model.findById(req.params.id)))
         } catch (error) {
-            const errorModel = config.errorMapper(error)
-            res.status(errorModel.status).json(errorModel)
+            const errorModel = config.responseMapper(error)
+            res.status(errorModel.statusCode).json(errorModel)
         }
     })
 
@@ -59,10 +59,10 @@ module.exports = (router) => (model) => (config) => {
             const result = await model.findByIdAndRemove(req.params.id)
             if (!result)
                 throw new NotFoundError('Entity not found')
-            res.json(config.mapper(result))
+            res.json(config.responseMapper(result))
         } catch (error) {
-            const errorModel = config.errorMapper(error)
-            res.status(errorModel.status).json(errorModel)
+            const errorModel = config.responseMapper(error)
+            res.status(errorModel.statusCodeCode).json(errorModel)
         }
     })
     return router
