@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 module.exports = (obj) => {
     if (obj.constructor.name.toLowerCase().includes('error')) {
         return {
@@ -7,7 +9,7 @@ module.exports = (obj) => {
         }
     } else {
         return {
-            result: obj,
+            result: Array.isArray(obj) ? obj : _.omit(obj, ['message', 'statusCode']),
             message: obj.message ? obj.message : "OK",
             statusCode: obj.statusCode ? obj.statusCode : 200
         }
