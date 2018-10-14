@@ -2,6 +2,7 @@ const express = require('express')
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const router = express.Router()
+const jwt = require('jsonwebtoken')
 
 const constants = require('../constants')
 const User = require('../models/users')
@@ -11,122 +12,140 @@ const NotFoundError = require('../errors/NotFoundError')
 const BadRequestError = require('../errors/BadRequestError')
 const UnauthorizedError = require('../errors/UnauthorizedError')
 
-const conf = {
-  responseMapper,
-  validators
-}
-const builder = (r) => (model) => (config) => {
-  r.get('/', async (req, res) => {
+router.post('/authenticate', async (req, res) => {
+  try {
+    const validatorResult = Joi.validate(req.body, validators.authenticate)
+    if (validatorResult.error)
+      throw new BadRequestError(validatorResult.error.details[0].message)
+
+    const user = await User.findOne({ username: req.body.username }).select('password_hash')
+    if (!user)
+      throw new UnauthorizedError('Authentication failed')
+
+
+    const authResult = await bcrypt.compare(req.body.password, user.password_hash)
+    if (!authResult)
+      throw new UnauthorizedError('Authentication failed')
+    res.json(responseMapper({
+      jwt: jwt.sign({ id: user.id }, constants.jwt_cert),
+      message: "Success",
+    }))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+})
+
+router.get('/authorize', async (req, res) => {
+  try {
+    if (!req.headers.authorization)
+      throw new UnauthorizedError("Not Authorized")
+    let decoded
     try {
-      res.json(config.responseMapper(await model.find({})))
+      decoded = jwt.verify(req.headers.authorization, constants.jwt_cert)
     } catch (error) {
       console.log(error)
-      const errorModel = config.responseMapper(error)
-      res.status(errorModel.statusCode).json(errorModel)
+      throw new UnauthorizedError("Not Authorized")
     }
-  });
 
-  r.post('/', async (req, res) => {
-    try {
-      const result = Joi.validate(req.body, config.validators.create)
-      if (result.error)
-        throw new BadRequestError(result.error.details[0].message)
-      const user = {
-        username: req.body.username,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password_hash: await bcrypt.hash(req.body.password, constants.hash_rounds)
+    const user = await User.findById(decoded.id)
+    console.log(decoded, user)
+    res.json(responseMapper({ decoded, user }))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+})
+
+router.get('/', async (req, res) => {
+  try {
+    res.json(responseMapper(await User.find({})))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+});
+
+router.post('/', async (req, res) => {
+  try {
+    const result = Joi.validate(req.body, validators.create)
+    if (result.error)
+      throw new BadRequestError(result.error.details[0].message)
+    const user = {
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password_hash: await bcrypt.hash(req.body.password, constants.hash_rounds)
+    }
+
+    const userCreationResult = await User.create(user)
+
+    res.json(responseMapper(await User.findById(userCreationResult.id)))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const result = await User.findById(req.params.id)
+    if (!result)
+      throw new NotFoundError('Entity not found')
+    res.json(responseMapper(result))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+});
+
+router.patch('/:id', async (req, res) => {
+  try {
+    const validatorResult = Joi.validate(req.body, validators.update)
+    if (validatorResult.error)
+      throw new BadRequestError(validatorResult.error.details[0].message)
+
+    const user = await Object.keys(req.body).reduce(async (acc, key) => {
+      if (key == "password") {
+        acc.password_hash = await bcrypt.hash(req.body[key], constants.hash_rounds)
+      } else {
+        acc[key] = req.body[key]
       }
+      return acc
+    }, {})
 
-      const userCreationResult = await model.create(user)
+    console.log(user)
 
-      res.json(config.responseMapper(userCreationResult))
-    } catch (error) {
-      console.log(error)
-      const errorModel = config.responseMapper(error)
-      res.status(errorModel.statusCode).json(errorModel)
-    }
-  });
+    const result = await User.findByIdAndUpdate(req.params.id, user)
 
-  r.get('/:id', async (req, res) => {
-    try {
-      const result = await model.findById(req.params.id)
-      if (!result)
-        throw new NotFoundError('Entity not found')
-      res.json(config.responseMapper(result))
-    } catch (error) {
-      console.log(error)
-      const errorModel = config.responseMapper(error)
-      res.status(errorModel.statusCode).json(errorModel)
-    }
-  });
+    if (!result)
+      throw new NotFoundError('Entity not found')
 
-  r.patch('/:id', async (req, res) => {
-    try {
-      const validatorResult = Joi.validate(req.body, config.validators.update)
-      if (validatorResult.error)
-        throw new BadRequestError(validatorResult.error.details[0].message)
+    res.json(responseMapper(await User.findById(req.params.id)))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+})
 
-      const user = await Object.keys(req.body).reduce(async (acc, key) => {
-        if (key == "password") {
-          acc.password_hash = await bcrypt.hash(req.body[key], constants.hash_rounds)
-        } else {
-          acc[key] = req.body[key]
-        }
-        return acc
-      }, {})
-
-      console.log(user)
-
-      const result = await model.findByIdAndUpdate(req.params.id, user)
-
-      if (!result)
-        throw new NotFoundError('Entity not found')
-
-      res.json(config.responseMapper(await model.findById(req.params.id)))
-    } catch (error) {
-      console.log(error)
-      const errorModel = config.responseMapper(error)
-      res.status(errorModel.statusCode).json(errorModel)
-    }
-  })
-
-  r.delete('/:id', async (req, res) => {
-    try {
-      const result = await model.findByIdAndRemove(req.params.id)
-      if (!result)
-        throw new NotFoundError('Entity not found')
-      res.json(config.responseMapper(result))
-    } catch (error) {
-      console.log(error)
-      const errorModel = config.responseMapper(error)
-      res.status(errorModel.statusCode).json(errorModel)
-    }
-  })
-
-  r.post('/authenticate', async (req, res) => {
-    try {
-      const validatorResult = Joi.validate(req.body, config.validators.authenticate)
-      if (validatorResult.error)
-        throw new BadRequestError(validatorResult.error.details[0].message)
-
-      const result = await model.findOne({ username: req.body.username })
-      if (!result)
-        throw new UnauthorizedError('Authentication failed')
+router.delete('/:id', async (req, res) => {
+  try {
+    const result = await User.findByIdAndRemove(req.params.id)
+    if (!result)
+      throw new NotFoundError('Entity not found')
+    res.json(responseMapper(result))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+})
 
 
-      const authResult = await bcrypt.compare(req.body.password, result.password_hash)
-      if (!authResult)
-        throw new UnauthorizedError('Authentication failed')
-
-      res.json(config.responseMapper("Success"))
-    } catch (error) {
-      console.log(error)
-      const errorModel = config.responseMapper(error)
-      res.status(errorModel.statusCode).json(errorModel)
-    }
-  })
-
-  return r
-}
-module.exports = builder(router)(User)(conf)
+module.exports = router
