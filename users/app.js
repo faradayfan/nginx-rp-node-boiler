@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/jwt', require('./routes/jwt'))
-app.use('/', require('./routes'));
+app.use('/api/auth/jwt', require('./routes/jwt'))
+app.use('/api/users', require('./routes'));
 
 module.exports = app;
