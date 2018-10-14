@@ -3,15 +3,13 @@ const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 
-const constants = require('../constants')
-const User = require('../models/users')
-const validators = require('../validators/users')
-const responseMapper = require('../mappings/responseMapper')
-const NotFoundError = require('../errors/NotFoundError')
-const BadRequestError = require('../errors/BadRequestError')
-const authorizer = require('../services/authorizer')
+const constants = require('../../constants')
+const User = require('../../models/users')
+const validators = require('../../validators/admin/users')
+const responseMapper = require('../../mappings/responseMapper')
+const NotFoundError = require('../../errors/NotFoundError')
+const BadRequestError = require('../../errors/BadRequestError')
 
-router.use(authorizer('admin'))
 
 router.get('/', async (req, res) => {
   try {

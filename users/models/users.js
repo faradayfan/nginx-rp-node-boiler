@@ -6,6 +6,7 @@ const schema = {
     username: String,
     admin: { type: Boolean, default: false },
     password_hash: { type: String, select: false },
+    active: { type: Boolean, default: true }
 }
 
 const User = db.model('User', schema)

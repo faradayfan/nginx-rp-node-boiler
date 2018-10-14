@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const create = Joi.object().keys({
+  admin: Joi.boolean().required(),
   username: Joi.string().required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
@@ -8,6 +9,7 @@ const create = Joi.object().keys({
 }).required()
 
 const update = Joi.object().keys({
+  admin: Joi.boolean(),
   username: Joi.string(),
   firstName: Joi.string(),
   lastName: Joi.string(),
@@ -16,5 +18,5 @@ const update = Joi.object().keys({
 
 module.exports = {
   create,
-  update
+  update,
 }
