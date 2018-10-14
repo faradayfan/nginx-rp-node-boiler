@@ -4,5 +4,8 @@ module.exports = {
         name: "users"
     },
     hash_rounds: 10,
-    jwt_cert: process.env.JWT_CERT ? process.env.JWT_CERT : "jwt secret cert"
+    jwt: {
+        cert: process.env.JWT_CERT ? process.env.JWT_CERT : "jwt secret cert",
+        expire: 3 * (60 * 60), // 3 hours in seconds
+    }
 }

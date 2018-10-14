@@ -26,7 +26,8 @@ router.post('/authenticate', async (req, res) => {
     if (!authResult)
       throw new UnauthorizedError('Authentication failed')
     res.json(responseMapper({
-      jwt: jwt.sign({ id: user.id }, constants.jwt_cert),
+      jwt: jwt.sign({ id: user.id }, constants.jwt.cert,
+        { expiresIn: constants.jwt.expire }),
       message: "Success",
     }))
   } catch (error) {
@@ -39,18 +40,42 @@ router.post('/authenticate', async (req, res) => {
 router.get('/authorize', async (req, res) => {
   try {
     if (!req.headers.authorization)
-      throw new UnauthorizedError("Not Authorized")
-    let decoded
+      throw new UnauthorizedError("Missing authorization header")
+    let verified
     try {
-      decoded = jwt.verify(req.headers.authorization, constants.jwt_cert)
+      verified = jwt.verify(req.headers.authorization, constants.jwt.cert)
     } catch (error) {
       console.log(error)
-      throw new UnauthorizedError("Not Authorized")
+      throw new UnauthorizedError("Token verification failed")
     }
 
-    const user = await User.findById(decoded.id)
-    console.log(decoded, user)
-    res.json(responseMapper({ decoded, user }))
+    const user = await User.findById(verified.id)
+    res.json(responseMapper({ jwt_decoded: verified, user }))
+  } catch (error) {
+    console.log(error)
+    const errorModel = responseMapper(error)
+    res.status(errorModel.statusCode).json(errorModel)
+  }
+})
+
+router.get('/refresh', async (req, res) => {
+  try {
+    if (!req.headers.authorization)
+      throw new UnauthorizedError("Missing authorization header")
+    let verified
+    try {
+      verified = jwt.verify(req.headers.authorization, constants.jwt.cert)
+    } catch (error) {
+      console.log(error)
+      throw new UnauthorizedError("Token verification failed")
+    }
+
+    res.json(responseMapper({
+      jwt: jwt.sign({ id: verified.id }, constants.jwt.cert,
+        { expiresIn: constants.jwt.expire }),
+      message: "Success",
+    }))
+
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
