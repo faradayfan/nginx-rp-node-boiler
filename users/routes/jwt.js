@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 
+const authorizer = require('../services/authorizer')
 const constants = require('../constants')
 const User = require('../models/users')
 const validators = require('../validators/users')
@@ -37,20 +38,11 @@ router.post('/authenticate', async (req, res) => {
   }
 })
 
-router.get('/authorize', async (req, res) => {
+router.get('/authorize', authorizer(), async (req, res) => {
   try {
-    if (!req.headers.authorization)
-      throw new UnauthorizedError("Missing authorization header")
-    let verified
-    try {
-      verified = jwt.verify(req.headers.authorization, constants.jwt.cert)
-    } catch (error) {
-      console.log(error)
-      throw new UnauthorizedError("Token verification failed")
-    }
 
-    const user = await User.findById(verified.id)
-    res.json(responseMapper({ jwt_decoded: verified, user }))
+    const user = await User.findById(req.jwt.id)
+    res.json(responseMapper({ jwt_decoded: req.jwt, user }))
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
@@ -58,20 +50,11 @@ router.get('/authorize', async (req, res) => {
   }
 })
 
-router.get('/refresh', async (req, res) => {
+router.get('/refresh', authorizer(), async (req, res) => {
   try {
-    if (!req.headers.authorization)
-      throw new UnauthorizedError("Missing authorization header")
-    let verified
-    try {
-      verified = jwt.verify(req.headers.authorization, constants.jwt.cert)
-    } catch (error) {
-      console.log(error)
-      throw new UnauthorizedError("Token verification failed")
-    }
 
     res.json(responseMapper({
-      jwt: jwt.sign({ id: verified.id }, constants.jwt.cert,
+      jwt: jwt.sign({ id: req.jwt.id }, constants.jwt.cert,
         { expiresIn: constants.jwt.expire }),
       message: "Success",
     }))

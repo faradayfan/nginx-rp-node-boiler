@@ -4,6 +4,7 @@ const schema = {
     firstName: String,
     lastName: String,
     username: String,
+    admin: { type: Boolean, default: false },
     password_hash: { type: String, select: false },
 }
 
