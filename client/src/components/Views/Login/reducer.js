@@ -3,12 +3,10 @@ import { STARTING_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, CLEAR_LOGIN_ERRORS } fr
 
 const initialState = {
   isLoggingIn: false,
-  failureMessage: undefined,
-  user: undefined
+  failureMessage: undefined
 }
 
 export default (state = initialState, action) => {
-  console.log("login reducer", action, state)
   switch (action.type) {
     case STARTING_LOGIN:
       return {

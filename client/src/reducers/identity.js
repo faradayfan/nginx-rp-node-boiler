@@ -7,7 +7,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  console.log("identity reducer", action, state)
   switch (action.type) {
     case SET_JWT:
       return {
