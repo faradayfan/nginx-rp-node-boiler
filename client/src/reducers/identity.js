@@ -2,8 +2,8 @@ import { SET_JWT, SET_USER, LOGOUT_USER } from "../constants/identity";
 
 
 const initialState = {
-  jwt: undefined,
-  user: undefined
+  jwt: null,
+  user: null
 }
 
 export default (state = initialState, action) => {
@@ -21,8 +21,8 @@ export default (state = initialState, action) => {
     case LOGOUT_USER:
       return {
         ...state,
-        user: undefined,
-        jwt: undefined
+        user: null,
+        jwt: null
       }
     default:
       return {
