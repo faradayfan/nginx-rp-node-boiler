@@ -29,7 +29,7 @@ class Login extends Component {
   }
 
   handleLoginSubmit = () => {
-    this.props.handleLogin(this.state.username, this.state.password)
+    this.props.handleLogin(this.state.username, this.state.password, this.props.history)
   }
 
   render() {
@@ -58,11 +58,12 @@ export const mapStateToProps = ({ login }) => ({
 })
 
 export const mapDispatchToProps = dispatch => ({
-  handleLogin: (username, password) => {
+  handleLogin: (username, password, history) => {
     dispatch(startLogin())
     axios.post('/api/auth/jwt/authenticate', { username, password }).then(result => {
       dispatch(setJWT(result.data.result.jwt))
       dispatch(loginSuccessful())
+      history.push('/')
     }).catch(err => {
       dispatch(loginFailed(err.response.data.message))
     })

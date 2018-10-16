@@ -9,7 +9,6 @@ import reducers from './reducers'
 
 const store = createStore(reducers)
 
-
 ReactDOM.render(
     <Provider store={store}>
         <Router>
