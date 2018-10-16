@@ -28,7 +28,8 @@ class Login extends Component {
       this.props.clearErrors()
   }
 
-  handleLoginSubmit = () => {
+  handleLoginSubmit = (e) => {
+    e.preventDefault()
     this.props.handleLogin(this.state.username, this.state.password, this.props.history)
   }
 
@@ -36,18 +37,18 @@ class Login extends Component {
     const { username, password } = this.state
     const { isLoggingIn, failureMessage } = this.props
     return (
-      <div >
+      <form onSubmit={this.handleLoginSubmit} >
         <div className="form-group">
-          <input disabled={isLoggingIn} type="text" value={username} onChange={this.handleUsernameChange} className="form-control" id="username-input" aria-describedby="emailHelp" placeholder="username" />
+          <input required disabled={isLoggingIn} type="text" value={username} onChange={this.handleUsernameChange} className="form-control" id="username-input" aria-describedby="emailHelp" placeholder="username" />
         </div>
         <div className="form-group">
-          <input disabled={isLoggingIn} type="password" value={password} onChange={this.handlePasswordChange} className="form-control" id="exampleInputPassword1" placeholder="Password" />
+          <input required disabled={isLoggingIn} type="password" value={password} onChange={this.handlePasswordChange} className="form-control" id="exampleInputPassword1" placeholder="Password" />
         </div>
         <div className="form-group">
-          <button disabled={isLoggingIn} className="btn btn-primary btn-block" onClick={this.handleLoginSubmit}>Submit</button>
+          <button disabled={isLoggingIn} className="btn btn-primary btn-block" type="submit">Submit</button>
         </div>
         <ErrorMessage message={failureMessage} />
-      </div>
+      </form>
     )
   }
 }
