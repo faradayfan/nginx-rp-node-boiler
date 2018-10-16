@@ -52,14 +52,17 @@ router.patch('/:id', authorizer('user'), async (req, res) => {
     if (validatorResult.error)
       throw new BadRequestError(validatorResult.error.details[0].message)
 
-    const user = await Object.keys(req.body).reduce(async (acc, key) => {
-      if (key == "password") {
-        acc.password_hash = await bcrypt.hash(req.body[key], constants.hash_rounds)
-      } else {
+    let starting = {}
+    if (req.body.password) {
+      starting.password_hash = await bcrypt.hash(req.body[key], constants.hash_rounds)
+    }
+
+    const user = await Object.keys(req.body).reduce((acc, key) => {
+      if (key != "password") {
         acc[key] = req.body[key]
       }
       return acc
-    }, {})
+    }, starting)
 
     console.log(user)
 
