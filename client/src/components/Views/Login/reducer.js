@@ -1,12 +1,14 @@
-import { STARTING_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, SET_JWT, CLEAR_LOGIN_ERRORS } from "./constants";
+import { STARTING_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, CLEAR_LOGIN_ERRORS } from "./constants";
 
 
 const initialState = {
   isLoggingIn: false,
-  failureMessage: undefined
+  failureMessage: undefined,
+  user: undefined
 }
 
 export default (state = initialState, action) => {
+  console.log("login reducer", action, state)
   switch (action.type) {
     case STARTING_LOGIN:
       return {
@@ -23,11 +25,6 @@ export default (state = initialState, action) => {
         ...state,
         failureMessage: action.failureMessage,
         isLoggingIn: false
-      }
-    case SET_JWT:
-      return {
-        ...state,
-        jwt: action.jwt
       }
     case CLEAR_LOGIN_ERRORS:
       return {

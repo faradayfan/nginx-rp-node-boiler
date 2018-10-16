@@ -1,4 +1,4 @@
-import { STARTING_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, SET_JWT, CLEAR_LOGIN_ERRORS } from "./constants";
+import { STARTING_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, CLEAR_LOGIN_ERRORS } from "./constants";
 
 
 export const startLogin = () => {
@@ -23,12 +23,5 @@ export const loginFailed = (message) => {
 export const clearLoginErrors = () => {
   return {
     type: CLEAR_LOGIN_ERRORS
-  }
-}
-
-export const setJWT = (jwt) => {
-  return {
-    type: SET_JWT,
-    jwt
   }
 }

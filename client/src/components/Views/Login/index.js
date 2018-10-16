@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { startLogin, loginSuccessful, loginFailed, setJWT, clearLoginErrors } from './actions'
+import { setJWT, setUser } from '../../../actions/identity'
+import { startLogin, loginSuccessful, loginFailed, clearLoginErrors } from './actions'
 import ErrorMessage from './components/ErrorMessage'
 import './index.css'
 
@@ -63,7 +64,15 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(startLogin())
     axios.post('/api/auth/jwt/authenticate', { username, password }).then(result => {
       dispatch(setJWT(result.data.result.jwt))
+      const opts = {
+        headers: {
+          Authorization: result.data.result.jwt
+        }
+      }
+      return axios.get('/api/auth/jwt/authorize', opts)
+    }).then((result) => {
       dispatch(loginSuccessful())
+      dispatch(setUser(result.data.result.user))
       history.push('/')
     }).catch(err => {
       dispatch(loginFailed(err.response.data.message))

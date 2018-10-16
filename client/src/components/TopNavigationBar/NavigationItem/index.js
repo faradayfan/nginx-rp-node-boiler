@@ -5,8 +5,8 @@ export default class NavigationItem extends Component {
     render() {
         return (
             <li className="nav-item">
-                <Link to={this.props.to} className="nav-link">{this.props.label}</Link>
-            </li>
+                <Link {...this.props} className="nav-link">{this.props.label}</Link>
+            </li >
         )
     }
 }
