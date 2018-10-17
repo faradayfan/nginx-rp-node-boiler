@@ -54,13 +54,12 @@ router.patch('/:id', authorizer('user'), async (req, res) => {
 
     let starting = {}
     if (req.body.password) {
-      starting.password_hash = await bcrypt.hash(req.body[key], constants.hash_rounds)
+      starting.password_hash = await bcrypt.hash(req.body.password, constants.hash_rounds)
     }
 
-    const user = await Object.keys(req.body).reduce((acc, key) => {
-      if (key != "password") {
-        acc[key] = req.body[key]
-      }
+    const user = await Object.keys(req.body).filter(k => k != "password").reduce((acc, key) => {
+      acc[key] = req.body[key]
+
       return acc
     }, starting)
 
