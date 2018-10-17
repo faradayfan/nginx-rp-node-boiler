@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 
-import { userUpdateFailed, userUpdateSuccessful, startUserUpdate, clearUserUpdateErrors } from './actions'
+import { userUpdateFailed, userUpdateSuccessful, startUserUpdate, clearUserUpdateErrors, clearUserUpdateSuccessMessage } from './actions'
 import { setUser } from '../../../actions/identity'
+import ErrorMessage from '../../alerts/ErrorMessage'
+import SuccessMessage from '../../alerts/SuccessMessage';
 
 class Home extends Component {
   constructor(props) {
@@ -40,7 +42,7 @@ class Home extends Component {
   }
 
   render() {
-    const { isUpdatingUser } = this.props
+    const { isUpdatingUser, successMessage, failureMessage, clearSuccessMessage, clearErrors } = this.props
     return (
       <div>
         <form onSubmit={this.handleSave}>
@@ -72,17 +74,21 @@ class Home extends Component {
             <button className="btn btn-primary btn-block" type="submit" disabled={isUpdatingUser}>Submit</button>
           </div>
         </form>
+        {failureMessage && <ErrorMessage message={failureMessage} onClose={clearErrors} />}
+        {successMessage && <SuccessMessage message={successMessage} onClose={clearSuccessMessage} />}
       </div>
     )
   }
 }
 
-export const mapStateToProps = ({ identity }) => ({
+export const mapStateToProps = ({ identity, updateProfile }) => ({
   user: {
     ...identity.user,
     password: ''
   },
-  jwt: identity.jwt
+  jwt: identity.jwt,
+  successMessage: updateProfile.successMessage,
+  failureMessage: updateProfile.failureMessage
 })
 
 export const mapDispatchToProps = dispatch => ({
@@ -94,7 +100,7 @@ export const mapDispatchToProps = dispatch => ({
     }
     dispatch(startUserUpdate())
     axios.patch(`/api/users/${id}`, user, opts).then(result => {
-      dispatch(userUpdateSuccessful())
+      dispatch(userUpdateSuccessful("User updated!"))
       dispatch(setUser(result.data.result))
     }).catch(err => {
       dispatch(userUpdateFailed(err.response.data.message))
@@ -102,6 +108,9 @@ export const mapDispatchToProps = dispatch => ({
   },
   clearErrors: () => {
     dispatch(clearUserUpdateErrors())
+  },
+  clearSuccessMessage: () => {
+    dispatch(clearUserUpdateSuccessMessage())
   }
 })
 

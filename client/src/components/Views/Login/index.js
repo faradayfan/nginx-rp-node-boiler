@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { setJWT, setUser } from '../../../actions/identity'
 import { startLogin, loginSuccessful, loginFailed, clearLoginErrors } from './actions'
-import ErrorMessage from './components/ErrorMessage'
+import ErrorMessage from '../../alerts/ErrorMessage'
 import './index.css'
 
 
@@ -48,7 +48,7 @@ class Login extends Component {
         <div className="form-group">
           <button disabled={isLoggingIn} className="btn btn-primary btn-block" type="submit">Submit</button>
         </div>
-        <ErrorMessage message={failureMessage} />
+        {failureMessage && <ErrorMessage message={failureMessage} />}
       </form>
     )
   }
