@@ -1,7 +1,7 @@
 const pkg = require('./package')
 
 module.exports = {
-  mode: 'universal',
+  mode: 'spa',
 
   /*
   ** Headers of the page
@@ -48,10 +48,7 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
-    proxy: true,
-    headers: {
-      'Authorization': 'Bearer ' + localStorage.getItem('userToken')
-    }
+    proxy: true
   },
   /*
   ** Build configuration

@@ -42,9 +42,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
+    ...mapActions({
+      logout: "identity/logout"
+    }),
     ...mapGetters({
       isAuthenticated: "identity/isAuthenticated"
     })
