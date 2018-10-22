@@ -1,10 +1,12 @@
 version: "3"
 services:
-  client:
-    build: ./client
-    container_name: client
+  users-manager:
+    build: ./users-manager
+    container_name: users-manager
+    restart: always
     volumes:
-      - ./client:/usr/src/app
+      - ./users-manager:/usr/src/app
+    command: "npm run dev"
 
   users:
     build: ./users
@@ -28,7 +30,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./client/build:/srv/www/static
       - ./default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - users
