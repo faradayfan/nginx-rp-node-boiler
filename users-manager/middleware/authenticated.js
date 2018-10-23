@@ -1,14 +1,17 @@
 import axios from 'axios'
 
 
-export default function ({ route, store, redirect }) {
+export default function ({ store, redirect }) {
   if (!store.getters["identity/isAuthenticated"]) {
     const jwt = window.localStorage.getItem("jwt")
     if (jwt) {
-      store.dispatch("identity/authorize", jwt)
+      return store.dispatch("identity/authorize", jwt)
+        .catch(error => {
+          store.dispatch("identity/logout")
+          return redirect('/login')
+        })
     } else {
       return redirect('/login')
     }
-
   }
 }

@@ -7,7 +7,6 @@ export const actions = {
     return this.$axios
       .post('/api/auth/jwt/authenticate', data)
       .then(response => {
-        commit('SET_LOGIN_STATUS', response.data.result)
         dispatch('authorize', response.data.result.jwt)
       }).catch(error => {
         throw error
@@ -19,7 +18,7 @@ export const actions = {
     return this.$axios.get('/api/auth/jwt/authorize')
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response.data.result.user))
-        commit('SET_LOGIN_STATUS', response.data.result)
+        commit('SET_LOGIN_STATUS', { jwt, ...response.data.result })
       })
   },
   logout({ commit }) {

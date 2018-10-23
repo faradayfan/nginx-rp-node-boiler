@@ -24,6 +24,12 @@
                 class="nav-link" 
                 to="/users">Users</nuxt-link>
             </li>
+            <li 
+              class="nav-item">
+              <a 
+                class="nav-link" 
+                @click="submitLogout">Logout</a>
+            </li>
           </ul>
           <form class="form-inline mt-2 mt-md-0">
             <input 
@@ -35,7 +41,8 @@
         </div>
       </nav>
     </header>
-    <div id="content">
+    <div 
+      id="content">
       <nuxt/>
     </div>
   </div>
@@ -45,12 +52,17 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapActions({
-      logout: "identity/logout"
-    }),
     ...mapGetters({
       isAuthenticated: "identity/isAuthenticated"
     })
+  },
+  methods: {
+    ...mapActions("identity", ["logout"]),
+    submitLogout() {
+      this.logout().then(() => {
+        this.$router.push("/login");
+      });
+    }
   }
 };
 </script>
@@ -68,7 +80,11 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+header {
+  height: 56px;
+}
 #content {
-  margin-top: 100px;
+  padding: 0;
+  margin: 0;
 }
 </style>
