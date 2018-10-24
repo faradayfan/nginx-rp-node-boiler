@@ -7,7 +7,6 @@ export const state = () => ({
 
 export const actions = {
   createUser(context, user) {
-    console.log(user)
     return this.$axios.post(`/api/admin/users/`, user)
   },
   saveUser(context, { id, user }) {
@@ -18,12 +17,12 @@ export const actions = {
   },
   fetchUser({ commit }, id) {
     return this.$axios.get(`/api/admin/users/${id}`).then(response => {
-      commit("POPULATE_USER", response.data.result)
+      return commit("POPULATE_USER", response.data.result)
     })
   },
   fetchUserList({ commit }) {
     return this.$axios.get('/api/admin/users').then((response) => {
-      commit("POPULATE_USERS", response.data.result)
+      return commit("POPULATE_USERS", response.data.result)
     }).catch(error => {
       throw error
     })

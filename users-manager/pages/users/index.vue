@@ -9,7 +9,7 @@ export default {
   components: { UsersList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
-    dispatch("users/fetchUserList");
+    return dispatch("users/fetchUserList");
   }
 };
 </script>
