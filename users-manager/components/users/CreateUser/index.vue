@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <form @submit.prevent="save">
+    <form @submit.prevent="submit">
       <div 
         class="form-group">
         <label 
@@ -94,39 +94,34 @@
   </div>
 </template>
 
-
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
-  data(context) {
+  data() {
     return {
       error: null,
       user: {
-        ...context.$store.state.users.user,
-        password: ""
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+        admin: false,
+        active: true
       }
     };
   },
-  computed: {
-    ...mapGetters("users", { storeUser: "user" })
-  },
   methods: {
-    ...mapActions("users", ["saveUser"]),
-    save() {
-      const obj = _.intersection(
-        _.keysIn({ ...this.storeUser, password: "" }), // add in the password default value
-        _.keysIn(this.user)
-      )
-        .filter(k => !/^_.*/.test(`${k}`)) // remove private fields
-        .filter(k => this.storeUser[k] != this.user[k]) // remove unchanged fields
-        .reduce((a, c) => ({ ...a, [c]: this.user[c] }), {}); // build the final object
-
-      return this.saveUser({ id: this.storeUser._id, user: obj }).catch(
-        error => {
+    submit() {
+      this.createUser(this.user)
+        .then(() => {
+          this.$router.push("/users");
+        })
+        .catch(error => {
           this.error = error;
-        }
-      );
-    }
+        });
+    },
+    ...mapActions("users", ["createUser"])
   }
 };
 </script>
@@ -144,4 +139,3 @@ form {
   text-align: right;
 }
 </style>
-

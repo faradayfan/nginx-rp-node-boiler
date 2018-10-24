@@ -8,7 +8,7 @@ export default {
   components: { EditUser },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {
-    dispatch("users/fetchUser", id);
+    return dispatch("users/fetchUser", id);
   }
 };
 </script>

@@ -7,6 +7,7 @@
         <th scope="col">Last</th>
         <th scope="col">Username</th>
         <th scope="col"/>
+        <th scope="col"/>
       </tr>
     </thead>
     <tbody>
@@ -18,17 +19,30 @@
         <td @click="viewClick(user)">{{ user.lastName }}</td>
         <td @click="viewClick(user)">{{ user.username }}</td>
         <td @click="editClick(user)">Edit</td>
+        <td @click="deleteClick(user)">Delete</td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td/>
+        <td/>
+        <td/>
+        <td/>
+        <td/>
+        <td>
+          <nuxt-link to="/user/create">Create</nuxt-link>
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapGetters({
-      users: "users/userList"
+    ...mapGetters("users", {
+      users: "userList"
     })
   },
   methods: {
@@ -37,7 +51,20 @@ export default {
     },
     editClick(user) {
       this.$router.push(`/user/${user._id}/edit`);
-    }
+    },
+    deleteClick(user) {
+      console.log(user);
+      const decision = confirm(
+        `Are you sure you want to delete ${user.username}`
+      );
+      console.log(decision);
+      if (decision) {
+        return this.deleteUser(user._id).then(() => {
+          return this.fetchUserList();
+        });
+      }
+    },
+    ...mapActions("users", ["fetchUserList", "deleteUser"])
   }
 };
 </script>

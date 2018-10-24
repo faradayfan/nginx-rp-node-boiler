@@ -6,19 +6,23 @@ export const state = () => ({
 })
 
 export const actions = {
-  saveUser(context, { user, editedUser }) {
-    let editedKeys = _.intersection(_.keysIn(user), _.keysIn(editedUser))
-    if (editedKeys.length > 0) {
-      this.$axios.patch(`/api/users/${user._id}`, editedUser)
-    }
+  createUser(context, user) {
+    console.log(user)
+    return this.$axios.post(`/api/admin/users/`, user)
+  },
+  saveUser(context, { id, user }) {
+    return this.$axios.patch(`/api/admin/users/${id}`, user)
+  },
+  deleteUser(context, id) {
+    return this.$axios.delete(`/api/admin/users/${id}`)
   },
   fetchUser({ commit }, id) {
-    this.$axios.get(`/api/users/${id}`).then(response => {
+    return this.$axios.get(`/api/admin/users/${id}`).then(response => {
       commit("POPULATE_USER", response.data.result)
     })
   },
   fetchUserList({ commit }) {
-    this.$axios.get('/api/admin/users').then((response) => {
+    return this.$axios.get('/api/admin/users').then((response) => {
       commit("POPULATE_USERS", response.data.result)
     }).catch(error => {
       throw error
