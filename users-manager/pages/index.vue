@@ -5,9 +5,5 @@
 </template>
 
 <script>
-export default {
-  beforeCreate() {
-    this.$router.push("/login");
-  }
-};
+export default {};
 </script>
