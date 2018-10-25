@@ -5,6 +5,7 @@
         <th scope="col">ID</th>
         <th scope="col">Role</th>
         <th scope="col">Resource</th>
+        <th scope="col">Subject</th>
         <th scope="col">Claims</th>
         <th scope="col"/>
         <th scope="col"/>
@@ -16,7 +17,8 @@
         :key="roleClaim._id">
         <td @click="viewClick(roleClaim)">{{ roleClaim._id }}</td>
         <td @click="viewClick(roleClaim)">{{ roleClaim.role.name }}</td>
-        <td @click="viewClick(roleClaim)">{{ roleClaim.resource.name }}</td>
+        <td @click="viewClick(roleClaim)">{{ roleClaim.resource.name }} ({{ roleClaim.resource.path }})</td>
+        <td @click="viewClick(roleClaim)">{{ roleClaim.subject }}</td>
         <td @click="viewClick(roleClaim)">{{ roleClaim.claims }}</td>
         <td @click="editClick(roleClaim)">Edit</td>
         <td @click="deleteClick(roleClaim)">Delete</td>
@@ -24,6 +26,7 @@
     </tbody>
     <tfoot>
       <tr>
+        <td/>
         <td/>
         <td/>
         <td/>

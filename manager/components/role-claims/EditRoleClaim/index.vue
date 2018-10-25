@@ -32,6 +32,20 @@
       <div 
         class="form-group">
         <label
+          for="subject">Subject</label>
+        <select
+          id="subject"
+          v-model="roleClaim.subject"
+          class="form-control">
+          <option 
+            v-for="subject in subjects" 
+            :key="subject"
+            :value="subject"> {{ subject }}</option>
+        </select>
+      </div>
+      <div 
+        class="form-group">
+        <label
           for="type">Claims</label>
         <select
           id="type"
@@ -65,6 +79,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data(context) {
     return {
+      subjects: ["self", "role", "all"],
       claims: ["create", "view", "edit", "delete", "list"],
       error: null,
       roleClaim: {

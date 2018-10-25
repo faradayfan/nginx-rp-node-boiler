@@ -4,9 +4,9 @@
       <div 
         class="form-group">
         <label
-          for="type">Role</label>
+          for="role">Role</label>
         <select
-          id="type"
+          id="role"
           v-model="roleClaim.role"
           class="form-control">
           <option 
@@ -18,9 +18,9 @@
       <div 
         class="form-group">
         <label
-          for="type">Resource</label>
+          for="resource">Resource</label>
         <select
-          id="type"
+          id="resource"
           v-model="roleClaim.resource"
           class="form-control">
           <option 
@@ -32,9 +32,23 @@
       <div 
         class="form-group">
         <label
-          for="type">Claims</label>
+          for="subject">Subject</label>
         <select
-          id="type"
+          id="subject"
+          v-model="roleClaim.subject"
+          class="form-control">
+          <option 
+            v-for="subject in subjects" 
+            :key="subject"
+            :value="subject"> {{ subject }}</option>
+        </select>
+      </div>
+      <div 
+        class="form-group">
+        <label
+          for="claims">Claims</label>
+        <select
+          id="claims"
           v-model="roleClaim.claims"
           class="form-control"
           multiple>
@@ -64,6 +78,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      subjects: ["self", "role", "all"],
       claims: ["create", "view", "edit", "delete", "list"],
       error: null,
       roleClaim: {
