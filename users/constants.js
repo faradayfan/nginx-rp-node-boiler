@@ -28,9 +28,13 @@ module.exports = {
             bootstrap: {
                 name: "All",
                 path: "/*",
-                type: "api",
-                rights: ["all"]
+                type: "api"
             }
-        }
+        },
+        roleClaims: {
+            bootstrap: {
+                claims: ["create", "view", "edit", "delete", "list"]
+            }
+        },
     }
 }
