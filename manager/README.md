@@ -1,4 +1,4 @@
-# users-manager
+# manager
 
 > My unreal Nuxt.js project
 

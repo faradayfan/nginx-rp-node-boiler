@@ -1,11 +1,11 @@
 version: "3"
 services:
-  users-manager:
-    build: ./users-manager
-    container_name: users-manager
+  manager:
+    build: ./manager
+    container_name: manager
     restart: always
     volumes:
-      - ./users-manager:/usr/src/app
+      - ./manager:/usr/src/app
     command: "npm run dev"
 
   users:
