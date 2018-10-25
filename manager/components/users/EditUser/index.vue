@@ -113,19 +113,19 @@ export default {
   methods: {
     ...mapActions("users", ["saveUser"]),
     save() {
-      const obj = _.intersection(
-        _.keysIn({ ...this.storeUser, password: "" }), // add in the password default value
-        _.keysIn(this.user)
-      )
+      const workingUser = { ...this.storeUser, password: "" }; // add in the password default value
+      const obj = _.intersection(_.keysIn(workingUser), _.keysIn(this.user))
         .filter(k => !/^_.*/.test(`${k}`)) // remove private fields
-        .filter(k => this.storeUser[k] != this.user[k]) // remove unchanged fields
+        .filter(k => workingUser[k] != this.user[k]) // remove unchanged fields
         .reduce((a, c) => ({ ...a, [c]: this.user[c] }), {}); // build the final object
-
-      return this.saveUser({ id: this.storeUser._id, user: obj }).catch(
-        error => {
-          this.error = error;
-        }
-      );
+      if (_.keysIn(obj).length > 0)
+        return this.saveUser({ id: this.storeUser._id, user: obj })
+          .then(() => {
+            this.$router.push("/users");
+          })
+          .catch(error => {
+            this.error = error;
+          });
     }
   }
 };

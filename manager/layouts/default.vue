@@ -26,6 +26,13 @@
                 class="nav-link" 
                 to="/users">Users</nuxt-link>
             </li>
+            <li
+              v-if="isAuthenticated"
+              class="nav-item">
+              <nuxt-link 
+                class="nav-link" 
+                to="/roles">Roles</nuxt-link>
+            </li>
             <li 
               v-if="isAuthenticated"
               class="nav-item">
