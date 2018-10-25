@@ -1,21 +1,11 @@
 <template>
-  <div>
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th scope="col">Property</th>
-          <th scope="col">value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr 
-          v-for=" (value, key) in user" 
-          :key="key">
-          <td>{{ key }}</td>
-          <td>{{ value }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="container">
+    <ul class="list-group">
+      <li 
+        v-for=" (value, key) in user" 
+        :key="key"
+        class="list-group-item">{{ key }}: {{ value }}</li>
+    </ul>
   </div>
 </template>
 
@@ -32,5 +22,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  max-width: 70%;
+  margin: 50px auto;
+}
 </style>
 
