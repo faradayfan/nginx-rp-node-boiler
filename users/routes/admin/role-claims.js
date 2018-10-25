@@ -42,7 +42,9 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const result = await RoleClaim.findById(req.params.id)
+    const result = await RoleClaim.findById(req.params.id).populate('role')
+      .populate('resource')
+      .exec()
     if (!result)
       throw new NotFoundError('Entity not found')
     res.json(responseMapper(result))

@@ -7,9 +7,12 @@
           for="type">Role</label>
         <select
           id="type"
-          v-model="roleClaim.role"
+          v-model="roleClaim.role._id"
           class="form-control">
-          <option>api</option>
+          <option 
+            v-for="role in roles" 
+            :key="role._id"
+            :value="role._id"> {{ role.name }}</option>
         </select>
       </div>
       <div 
@@ -18,9 +21,12 @@
           for="type">Resource</label>
         <select
           id="type"
-          v-model="roleClaim.resource"
+          v-model="roleClaim.resource._id"
           class="form-control">
-          <option>api</option>
+          <option 
+            v-for="resource in resources" 
+            :key="resource._id"
+            :value="resource._id"> {{ resource.name }}</option>
         </select>
       </div>
       <div 
@@ -30,8 +36,11 @@
         <select
           id="type"
           v-model="roleClaim.claims"
-          class="form-control">
-          <option>api</option>
+          class="form-control"
+          multiple>
+          <option 
+            v-for="claim in claims" 
+            :key="claim"> {{ claim }}</option>
         </select>
       </div>
       <div
@@ -56,6 +65,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data(context) {
     return {
+      claims: ["create", "view", "edit", "delete", "list"],
       error: null,
       roleClaim: {
         ...context.$store.state.roleClaims.roleClaim
@@ -63,7 +73,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("roleClaims", { storeRoleClaim: "roleClaim" })
+    ...mapGetters("roleClaims", { storeRoleClaim: "roleClaim" }),
+    ...mapGetters("roles", {
+      roles: "roleList"
+    }),
+    ...mapGetters("resources", {
+      resources: "resourceList"
+    })
   },
   methods: {
     ...mapActions("roleClaims", ["saveRoleClaim"]),
@@ -72,13 +88,14 @@ export default {
         .filter(k => !/^_.*/.test(`${k}`)) // remove private fields
         .filter(k => this.storeRoleClaim[k] != this.roleClaim[k]) // remove unchanged fields
         .reduce((a, c) => ({ ...a, [c]: this.roleClaim[c] }), {}); // build the final object
+
       if (_.keysIn(obj).length > 0)
         return this.saveRoleClaim({
           id: this.storeRoleClaim._id,
           roleClaim: obj
         })
           .then(() => {
-            this.$router.push("/role-claim");
+            this.$router.push("/role-claims");
           })
           .catch(error => {
             this.error = error;

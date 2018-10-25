@@ -53,11 +53,9 @@ export default {
       this.$router.push(`/user/${user._id}/edit`);
     },
     deleteClick(user) {
-      console.log(user);
       const decision = confirm(
         `Are you sure you want to delete ${user.username}`
       );
-      console.log(decision);
       if (decision) {
         return this.deleteUser(user._id).then(() => {
           return this.fetchUserList();

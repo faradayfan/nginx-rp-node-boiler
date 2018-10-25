@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.resource);
       this.createResource(this.resource)
         .then(() => {
           this.$router.push("/resources");

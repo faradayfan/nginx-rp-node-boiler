@@ -47,11 +47,9 @@ export default {
       this.$router.push(`/resource/${resource._id}/edit`);
     },
     deleteClick(resource) {
-      console.log(resource);
       const decision = confirm(
         `Are you sure you want to delete ${resource.resourcename}`
       );
-      console.log(decision);
       if (decision) {
         return this.deleteResource(resource._id).then(() => {
           return this.fetchResourceList();

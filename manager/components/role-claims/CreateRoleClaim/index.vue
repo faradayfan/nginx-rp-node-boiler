@@ -7,9 +7,12 @@
           for="type">Role</label>
         <select
           id="type"
-          v-model="roleClaim.type"
+          v-model="roleClaim.role"
           class="form-control">
-          <option>api</option>
+          <option 
+            v-for="role in roles" 
+            :key="role._id"
+            :value="role._id"> {{ role.name }}</option>
         </select>
       </div>
       <div 
@@ -18,9 +21,12 @@
           for="type">Resource</label>
         <select
           id="type"
-          v-model="roleClaim.type"
+          v-model="roleClaim.resource"
           class="form-control">
-          <option>api</option>
+          <option 
+            v-for="resource in resources" 
+            :key="resource._id"
+            :value="resource._id"> {{ resource.name }}</option>
         </select>
       </div>
       <div 
@@ -29,9 +35,12 @@
           for="type">Claims</label>
         <select
           id="type"
-          v-model="roleClaim.type"
-          class="form-control">
-          <option>api</option>
+          v-model="roleClaim.claims"
+          class="form-control"
+          multiple>
+          <option 
+            v-for="claim in claims" 
+            :key="claim"> {{ claim }}</option>
         </select>
       </div>
       <div
@@ -51,24 +60,32 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      claims: ["create", "view", "edit", "delete", "list"],
       error: null,
       roleClaim: {
-        name: "",
-        path: "",
-        type: ""
+        role: "",
+        resource: "",
+        claims: []
       }
     };
   },
+  computed: {
+    ...mapGetters("roles", {
+      roles: "roleList"
+    }),
+    ...mapGetters("resources", {
+      resources: "resourceList"
+    })
+  },
   methods: {
     submit() {
-      console.log(this.roleClaim);
       this.createRoleClaim(this.roleClaim)
         .then(() => {
-          this.$router.push("/role-claim");
+          this.$router.push("/role-claims");
         })
         .catch(error => {
           this.error = error;

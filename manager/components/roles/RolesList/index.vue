@@ -47,11 +47,9 @@ export default {
       this.$router.push(`/role/${role._id}/edit`);
     },
     deleteClick(role) {
-      console.log(role);
       const decision = confirm(
         `Are you sure you want to delete ${role.rolename}`
       );
-      console.log(decision);
       if (decision) {
         return this.deleteRole(role._id).then(() => {
           return this.fetchRoleList();

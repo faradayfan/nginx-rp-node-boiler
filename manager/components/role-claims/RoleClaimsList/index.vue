@@ -53,18 +53,16 @@ export default {
       this.$router.push(`/role-claim/${roleClaim._id}/edit`);
     },
     deleteClick(roleClaim) {
-      console.log(roleClaim);
       const decision = confirm(
         `Are you sure you want to delete ${roleClaim._id}`
       );
-      console.log(decision);
       if (decision) {
         return this.deleteRoleClaim(roleClaim._id).then(() => {
           return this.fetchRoleClaimList();
         });
       }
     },
-    ...mapActions("role-claims", ["fetchRoleClaimList", "deleteRoleClaim"])
+    ...mapActions("roleClaims", ["fetchRoleClaimList", "deleteRoleClaim"])
   }
 };
 </script>
