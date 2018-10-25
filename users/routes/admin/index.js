@@ -4,8 +4,10 @@ const authorizer = require('../../services/authorizer')
 
 const usersRoutes = require('./users')
 const rolesRoutes = require('./roles')
+const resourcesRoutes = require('./resources')
 
 router.use(authorizer('admin'))
 router.use('/users', usersRoutes)
 router.use('/roles', rolesRoutes)
+router.use('/resources', resourcesRoutes)
 module.exports = router

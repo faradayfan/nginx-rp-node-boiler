@@ -1,9 +1,16 @@
 const User = require('../models/users')
 const Role = require('../models/roles')
+const Resource = require('../models/roles')
 const constants = require('../constants')
 const bcrypt = require('bcrypt')
 
 const bootstrap_db = async () => {
+  const adminResourceCount = await Resource.where({ name: constants.db.resources.bootstrap.name }).countDocuments()
+  if (adminResourceCount == 0)
+    Resource.create({
+      ...constants.db.resources.bootstrap,
+    })
+
   const adminRoleCount = await Role.where({ name: constants.db.roles.bootstrap.name }).countDocuments()
   if (adminRoleCount == 0)
     Role.create({

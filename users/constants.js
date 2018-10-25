@@ -23,6 +23,14 @@ module.exports = {
             bootstrap: {
                 name: "Admin"
             }
+        },
+        resources: {
+            bootstrap: {
+                name: "All",
+                path: "/*",
+                type: "api",
+                rights: ["all"]
+            }
         }
     }
 }

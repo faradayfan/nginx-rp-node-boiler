@@ -2,8 +2,8 @@ const express = require('express')
 const Joi = require('joi')
 const router = express.Router()
 
-const Role = require('../../models/roles')
-const validators = require('../../validators/admin/roles')
+const Resource = require('../../models/resources')
+const validators = require('../../validators/admin/resources')
 const responseMapper = require('../../mappings/responseMapper')
 const NotFoundError = require('../../errors/NotFoundError')
 const BadRequestError = require('../../errors/BadRequestError')
@@ -12,7 +12,7 @@ const BadRequestError = require('../../errors/BadRequestError')
 
 router.get('/', async (req, res) => {
   try {
-    res.json(responseMapper(await Role.find({})))
+    res.json(responseMapper(await Resource.find({})))
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
@@ -26,9 +26,9 @@ router.post('/', async (req, res) => {
     if (result.error)
       throw new BadRequestError(result.error.details[0].message)
 
-    const roleCreationResult = await Role.create(req.body)
+    const resourceCreationResult = await Resource.create(req.body)
 
-    res.json(responseMapper(await Role.findById(roleCreationResult.id)))
+    res.json(responseMapper(await Resource.findById(resourceCreationResult.id)))
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const result = await Role.findById(req.params.id)
+    const result = await Resource.findById(req.params.id)
     if (!result)
       throw new NotFoundError('Entity not found')
     res.json(responseMapper(result))
@@ -55,12 +55,12 @@ router.patch('/:id', async (req, res) => {
     if (validatorResult.error)
       throw new BadRequestError(validatorResult.error.details[0].message)
 
-    const result = await Role.findByIdAndUpdate(req.params.id, req.body)
+    const result = await Resource.findByIdAndUpdate(req.params.id, req.body)
 
     if (!result)
       throw new NotFoundError('Entity not found')
 
-    res.json(responseMapper(await Role.findById(req.params.id)))
+    res.json(responseMapper(await Resource.findById(req.params.id)))
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
@@ -70,7 +70,7 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const result = await Role.findByIdAndRemove(req.params.id)
+    const result = await Resource.findByIdAndRemove(req.params.id)
     if (!result)
       throw new NotFoundError('Entity not found')
     res.json(responseMapper(result))
