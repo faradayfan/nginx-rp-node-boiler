@@ -10,7 +10,6 @@ export default {
   fetch({ store: { dispatch }, params: { id } }) {
     return Promise.all([
       dispatch("roleClaims/fetchRoleClaim", id),
-      dispatch("roles/fetchRoleList"),
       dispatch("resources/fetchResourceList")
     ]);
   }

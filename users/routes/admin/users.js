@@ -13,7 +13,11 @@ const BadRequestError = require('../../errors/BadRequestError')
 
 router.get('/', async (req, res) => {
   try {
-    res.json(responseMapper(await User.find({})))
+    const users = await User.find({})
+      .populate("roles")
+      .exec()
+
+    res.json(responseMapper(users))
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
@@ -52,6 +56,8 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const result = await User.findById(req.params.id)
+      .populate("roles")
+      .exec()
     if (!result)
       throw new NotFoundError('Entity not found')
     res.json(responseMapper(result))

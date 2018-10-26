@@ -33,6 +33,7 @@ module.exports = {
         },
         roleClaims: {
             bootstrap: {
+                subject: "all",
                 claims: ["create", "view", "edit", "delete", "list"]
             }
         },

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const create = Joi.object().keys({
-  role: Joi.string().required(),
+  role: Joi.string(),
   resource: Joi.string().required(),
   subject: Joi.string().required().valid("self", "role", "all"),
   claims: Joi.array().items(

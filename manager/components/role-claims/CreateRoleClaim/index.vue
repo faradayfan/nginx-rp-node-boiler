@@ -4,20 +4,6 @@
       <div 
         class="form-group">
         <label
-          for="role">Role</label>
-        <select
-          id="role"
-          v-model="roleClaim.role"
-          class="form-control">
-          <option 
-            v-for="role in roles" 
-            :key="role._id"
-            :value="role._id"> {{ role.name }}</option>
-        </select>
-      </div>
-      <div 
-        class="form-group">
-        <label
           for="resource">Resource</label>
         <select
           id="resource"
@@ -82,16 +68,12 @@ export default {
       claims: ["create", "view", "edit", "delete", "list"],
       error: null,
       roleClaim: {
-        role: "",
         resource: "",
         claims: []
       }
     };
   },
   computed: {
-    ...mapGetters("roles", {
-      roles: "roleList"
-    }),
     ...mapGetters("resources", {
       resources: "resourceList"
     })

@@ -8,7 +8,11 @@ export default {
   components: { EditRole },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {
-    return dispatch("roles/fetchRole", id);
+    return Promise.all([
+      dispatch("roles/fetchRole", id),
+      dispatch("roleClaims/fetchRoleClaimList"),
+      dispatch("users/fetchUserList")
+    ]);
   }
 };
 </script>

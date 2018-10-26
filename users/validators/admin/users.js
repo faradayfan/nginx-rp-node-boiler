@@ -7,7 +7,8 @@ const create = Joi.object().keys({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   password: Joi.string().required(),
-  email: Joi.string().required()
+  email: Joi.string().required(),
+  roles: Joi.array().items(Joi.string()).required(),
 }).required()
 
 const update = Joi.object().keys({
@@ -17,7 +18,8 @@ const update = Joi.object().keys({
   firstName: Joi.string(),
   lastName: Joi.string(),
   password: Joi.string(),
-  email: Joi.string()
+  email: Joi.string(),
+  roles: Joi.array().items(Joi.string()),
 }).required()
 
 module.exports = {

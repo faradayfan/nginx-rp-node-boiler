@@ -12,6 +12,21 @@
           class="form-control"
           placeholder="Enter name">
       </div>
+      <div 
+        class="form-group">
+        <label
+          for="resource">Role Claims</label>
+        <select
+          id="resource"
+          v-model="role.roleClaims"
+          class="form-control"
+          multiple>
+          <option 
+            v-for="roleClaim in roleClaims" 
+            :key="roleClaim._id"
+            :value="roleClaim._id"> {{ roleClaim.resource.name }} - {{ roleClaim.subject }} - {{ roleClaim.claims }}</option>
+        </select>
+      </div>
       <div
         class="right">
         <button 
@@ -41,7 +56,14 @@ export default {
     };
   },
   computed: {
+    ...mapGetters("roleClaims", {
+      roleClaims: "roleClaimList"
+    }),
     ...mapGetters("roles", { storeRole: "role" })
+  },
+  created() {
+    this.role.roleClaims = this.role.roleClaims.map(v => v._id);
+    console.log(this.role);
   },
   methods: {
     ...mapActions("roles", ["saveRole"]),

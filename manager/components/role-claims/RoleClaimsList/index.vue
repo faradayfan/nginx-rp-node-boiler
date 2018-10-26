@@ -3,7 +3,6 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Role</th>
         <th scope="col">Resource</th>
         <th scope="col">Subject</th>
         <th scope="col">Claims</th>
@@ -16,7 +15,6 @@
         v-for="roleClaim in roleClaims" 
         :key="roleClaim._id">
         <td @click="viewClick(roleClaim)">{{ roleClaim._id }}</td>
-        <td @click="viewClick(roleClaim)">{{ roleClaim.role.name }}</td>
         <td @click="viewClick(roleClaim)">{{ roleClaim.resource.name }} ({{ roleClaim.resource.path }})</td>
         <td @click="viewClick(roleClaim)">{{ roleClaim.subject }}</td>
         <td @click="viewClick(roleClaim)">{{ roleClaim.claims }}</td>
@@ -26,7 +24,6 @@
     </tbody>
     <tfoot>
       <tr>
-        <td/>
         <td/>
         <td/>
         <td/>
@@ -56,13 +53,17 @@ export default {
       this.$router.push(`/role-claim/${roleClaim._id}/edit`);
     },
     deleteClick(roleClaim) {
-      const decision = confirm(
-        `Are you sure you want to delete ${roleClaim._id}`
-      );
-      if (decision) {
-        return this.deleteRoleClaim(roleClaim._id).then(() => {
-          return this.fetchRoleClaimList();
-        });
+      if (roleClaim.role) {
+        alert("You cannot delete a claim that has an associating role");
+      } else {
+        const decision = confirm(
+          `Are you sure you want to delete ${roleClaim._id}`
+        );
+        if (decision) {
+          return this.deleteRoleClaim(roleClaim._id).then(() => {
+            return this.fetchRoleClaimList();
+          });
+        }
       }
     },
     ...mapActions("roleClaims", ["fetchRoleClaimList", "deleteRoleClaim"])

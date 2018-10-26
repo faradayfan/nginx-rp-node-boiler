@@ -12,6 +12,21 @@
           class="form-control"
           placeholder="Enter name">
       </div>
+      <div 
+        class="form-group">
+        <label
+          for="resource">Role Claims</label>
+        <select
+          id="resource"
+          v-model="role.roleClaims"
+          class="form-control"
+          multiple>
+          <option 
+            v-for="roleClaim in roleClaims" 
+            :key="roleClaim._id"
+            :value="roleClaim._id"> {{ roleClaim.resource.name }} ({{ roleClaim.resource.path }}) - {{ roleClaim.subject }} - {{ roleClaim.claims }}</option>
+        </select>
+      </div>
       <div
         class="right">
         <button 
@@ -29,15 +44,21 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
       error: null,
       role: {
-        name: ""
+        name: "",
+        roleClaims: []
       }
     };
+  },
+  computed: {
+    ...mapGetters("roleClaims", {
+      roleClaims: "roleClaimList"
+    })
   },
   methods: {
     submit() {

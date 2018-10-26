@@ -8,10 +8,7 @@ export default {
   components: { CreateRoleClaim },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
-    return Promise.all([
-      dispatch("roles/fetchRoleList"),
-      dispatch("resources/fetchResourceList")
-    ]);
+    return Promise.all([dispatch("resources/fetchResourceList")]);
   }
 };
 </script>
