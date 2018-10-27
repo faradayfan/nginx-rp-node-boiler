@@ -1,45 +1,20 @@
 <template>
-  <table class="table table-hover table-sm">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Resource</th>
-        <th scope="col">Subject</th>
-        <th scope="col">Claims</th>
-        <th scope="col"/>
-        <th scope="col"/>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="roleClaim in roleClaims" 
-        :key="roleClaim._id">
-        <td @click="viewClick(roleClaim)">{{ roleClaim._id }}</td>
-        <td @click="viewClick(roleClaim)">{{ roleClaim.resource.name }} ({{ roleClaim.resource.path }})</td>
-        <td @click="viewClick(roleClaim)">{{ roleClaim.subject }}</td>
-        <td @click="viewClick(roleClaim)">{{ roleClaim.claims }}</td>
-        <td @click="editClick(roleClaim)">Edit</td>
-        <td @click="deleteClick(roleClaim)">Delete</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td/>
-        <td/>
-        <td/>
-        <td/>
-        <td/>
-        <td>
-          <nuxt-link to="/role-claim/create">Create</nuxt-link>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div class="container">
+    <ListView
+      :items="roleClaims"
+      :display-keys="['resource', 'subject', 'claims']"
+      :view-click="viewClick"
+      :edit-click="editClick"
+      :delete-click="deleteClick"
+      :create-click="createClick"/>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ListView from "../../Generic/ListView";
 export default {
+  components: { ListView },
   computed: {
     ...mapGetters("roleClaims", {
       roleClaims: "roleClaimList"
@@ -51,6 +26,9 @@ export default {
     },
     editClick(roleClaim) {
       this.$router.push(`/role-claim/${roleClaim._id}/edit`);
+    },
+    createClick() {
+      this.$router.push(`/role-claim/create`);
     },
     deleteClick(roleClaim) {
       if (roleClaim.role) {
@@ -72,7 +50,8 @@ export default {
 </script>
 
 <style scoped>
-tbody tr:hover {
-  cursor: pointer;
+.container {
+  max-width: 70%;
+  margin: 50px auto;
 }
 </style>

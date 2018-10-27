@@ -1,45 +1,20 @@
 <template>
-  <table class="table table-hover table-sm">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Username</th>
-        <th scope="col"/>
-        <th scope="col"/>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="user in users" 
-        :key="user._id">
-        <td @click="viewClick(user)">{{ user._id }}</td>
-        <td @click="viewClick(user)">{{ user.firstName }}</td>
-        <td @click="viewClick(user)">{{ user.lastName }}</td>
-        <td @click="viewClick(user)">{{ user.username }}</td>
-        <td @click="editClick(user)">Edit</td>
-        <td @click="deleteClick(user)">Delete</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td/>
-        <td/>
-        <td/>
-        <td/>
-        <td/>
-        <td>
-          <nuxt-link to="/user/create">Create</nuxt-link>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div class="container">
+    <ListView
+      :items="users"
+      :display-keys="['username', 'firstName', 'lastName']"
+      :view-click="viewClick"
+      :edit-click="editClick"
+      :delete-click="deleteClick"
+      :create-click="createClick"/>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ListView from "../../Generic/ListView";
 export default {
+  components: { ListView },
   computed: {
     ...mapGetters("users", {
       users: "userList"
@@ -51,6 +26,9 @@ export default {
     },
     editClick(user) {
       this.$router.push(`/user/${user._id}/edit`);
+    },
+    createClick() {
+      this.$router.push("/user/create");
     },
     deleteClick(user) {
       const decision = confirm(
@@ -68,7 +46,9 @@ export default {
 </script>
 
 <style scoped>
-tbody tr:hover {
-  cursor: pointer;
+.container {
+  max-width: 70%;
+  margin: 50px auto;
 }
 </style>
+

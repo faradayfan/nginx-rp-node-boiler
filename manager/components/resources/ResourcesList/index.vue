@@ -1,39 +1,20 @@
 <template>
-  <table class="table table-hover table-sm">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col"/>
-        <th scope="col"/>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="resource in resources" 
-        :key="resource._id">
-        <td @click="viewClick(resource)">{{ resource._id }}</td>
-        <td @click="viewClick(resource)">{{ resource.name }}</td>
-        <td @click="editClick(resource)">Edit</td>
-        <td @click="deleteClick(resource)">Delete</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td/>
-        <td/>
-        <td/>
-        <td>
-          <nuxt-link to="/resource/create">Create</nuxt-link>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div class="container">
+    <ListView
+      :items="resources"
+      :display-keys="['name', 'type', 'path']"
+      :view-click="viewClick"
+      :edit-click="editClick"
+      :delete-click="deleteClick"
+      :create-click="createClick"/>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ListView from "../../Generic/ListView";
 export default {
+  components: { ListView },
   computed: {
     ...mapGetters("resources", {
       resources: "resourceList"
@@ -45,6 +26,9 @@ export default {
     },
     editClick(resource) {
       this.$router.push(`/resource/${resource._id}/edit`);
+    },
+    createClick() {
+      this.$router.push(`/resource/create`);
     },
     deleteClick(resource) {
       const decision = confirm(
@@ -62,7 +46,8 @@ export default {
 </script>
 
 <style scoped>
-tbody tr:hover {
-  cursor: pointer;
+.container {
+  max-width: 70%;
+  margin: 50px auto;
 }
 </style>

@@ -1,39 +1,20 @@
 <template>
-  <table class="table table-hover table-sm">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col"/>
-        <th scope="col"/>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="role in roles" 
-        :key="role._id">
-        <td @click="viewClick(role)">{{ role._id }}</td>
-        <td @click="viewClick(role)">{{ role.name }}</td>
-        <td @click="editClick(role)">Edit</td>
-        <td @click="deleteClick(role)">Delete</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td/>
-        <td/>
-        <td/>
-        <td>
-          <nuxt-link to="/role/create">Create</nuxt-link>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div class="container">
+    <ListView
+      :items="roles"
+      :display-keys="['name']"
+      :view-click="viewClick"
+      :edit-click="editClick"
+      :delete-click="deleteClick"
+      :create-click="createClick"/>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ListView from "../../Generic/ListView";
 export default {
+  components: { ListView },
   computed: {
     ...mapGetters("roles", {
       roles: "roleList"
@@ -45,6 +26,9 @@ export default {
     },
     editClick(role) {
       this.$router.push(`/role/${role._id}/edit`);
+    },
+    createClick() {
+      this.$router.push(`/role/create`);
     },
     deleteClick(role) {
       const decision = confirm(
@@ -62,7 +46,8 @@ export default {
 </script>
 
 <style scoped>
-tbody tr:hover {
-  cursor: pointer;
+.container {
+  max-width: 70%;
+  margin: 50px auto;
 }
 </style>
