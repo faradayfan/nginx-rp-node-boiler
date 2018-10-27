@@ -1,18 +1,15 @@
 <template>
   <div class="container">
-    <ul class="list-group">
-      <li 
-        v-for=" (value, key) in role" 
-        :key="key"
-        class="list-group-item">{{ key }}: {{ value }}</li>
-    </ul>
+    <ObjectView :item="role" />
   </div>
 </template>
 
 
 <script>
 import { mapGetters } from "vuex";
+import ObjectView from "../../Generic/ObjectView";
 export default {
+  components: { ObjectView },
   computed: {
     ...mapGetters({
       role: "roles/role"

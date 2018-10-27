@@ -56,7 +56,13 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const result = await User.findById(req.params.id)
-      .populate("roles")
+      .populate({
+        path: "roles",
+        populate: {
+          path: "roleClaims",
+          populate: "resources"
+        }
+      })
       .exec()
     if (!result)
       throw new NotFoundError('Entity not found')

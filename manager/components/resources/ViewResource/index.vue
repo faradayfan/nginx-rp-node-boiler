@@ -1,18 +1,15 @@
 <template>
   <div class="container">
-    <ul class="list-group">
-      <li 
-        v-for=" (value, key) in resource" 
-        :key="key"
-        class="list-group-item">{{ key }}: {{ value }}</li>
-    </ul>
+    <ObjectView :item="resource" />
   </div>
 </template>
 
 
 <script>
 import { mapGetters } from "vuex";
+import ObjectView from "../../Generic/ObjectView";
 export default {
+  components: { ObjectView },
   computed: {
     ...mapGetters({
       resource: "resources/resource"
