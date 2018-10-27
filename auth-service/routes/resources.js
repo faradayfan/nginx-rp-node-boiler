@@ -2,12 +2,12 @@ const express = require('express')
 const Joi = require('joi')
 const router = express.Router()
 
-const Resource = require('../../models/resources')
-const validators = require('../../validators/admin/resources')
-const responseMapper = require('../../mappings/responseMapper')
-const NotFoundError = require('../../errors/NotFoundError')
-const BadRequestError = require('../../errors/BadRequestError')
-const resourceAuthorizer = require('../../services/resourceAuthorizer')
+const Resource = require('../models/resources')
+const validators = require('../validators/resources')
+const responseMapper = require('../mappings/responseMapper')
+const NotFoundError = require('../errors/NotFoundError')
+const BadRequestError = require('../errors/BadRequestError')
+const resourceAuthorizer = require('../services/resourceAuthorizer')
 
 
 

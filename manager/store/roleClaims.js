@@ -7,21 +7,21 @@ export const state = () => ({
 
 export const actions = {
   createRoleClaim(context, roleClaim) {
-    return this.$axios.post(`/api/admin/role-claims/`, roleClaim)
+    return this.$axios.post(`/api/auth-service/role-claims/`, roleClaim)
   },
   saveRoleClaim(context, { id, roleClaim }) {
-    return this.$axios.patch(`/api/admin/role-claims/${id}`, roleClaim)
+    return this.$axios.patch(`/api/auth-service/role-claims/${id}`, roleClaim)
   },
   deleteRoleClaim(context, id) {
-    return this.$axios.delete(`/api/admin/role-claims/${id}`)
+    return this.$axios.delete(`/api/auth-service/role-claims/${id}`)
   },
   fetchRoleClaim({ commit }, id) {
-    return this.$axios.get(`/api/admin/role-claims/${id}`).then(response => {
+    return this.$axios.get(`/api/auth-service/role-claims/${id}`).then(response => {
       return commit("POPULATE_ROLE_CLAIM", response.data.result)
     })
   },
   fetchRoleClaimList({ commit }) {
-    return this.$axios.get('/api/admin/role-claims').then((response) => {
+    return this.$axios.get('/api/auth-service/role-claims').then((response) => {
       return commit("POPULATE_ROLE_CLAIMS", response.data.result)
     }).catch(error => {
       throw error

@@ -11,9 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('./services/jwtParser'))
 
-app.use('/api/admin', require('./routes/admin'))
-app.use('/api/auth/jwt', require('./routes/jwt'))
-app.use('/api/users', require('./routes/users'))
+app.use('/api', require('./routes'))
 
 
 

@@ -15,8 +15,7 @@ module.exports = {
                 firstName: "admin",
                 lastName: "admin",
                 password: "password1234",
-                active: true,
-                admin: true
+                active: true
             }
         },
         roles: {

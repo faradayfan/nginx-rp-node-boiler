@@ -7,21 +7,21 @@ export const state = () => ({
 
 export const actions = {
   createResource(context, resource) {
-    return this.$axios.post(`/api/admin/resources/`, resource)
+    return this.$axios.post(`/api/auth-service/resources/`, resource)
   },
   saveResource(context, { id, resource }) {
-    return this.$axios.patch(`/api/admin/resources/${id}`, resource)
+    return this.$axios.patch(`/api/auth-service/resources/${id}`, resource)
   },
   deleteResource(context, id) {
-    return this.$axios.delete(`/api/admin/resources/${id}`)
+    return this.$axios.delete(`/api/auth-service/resources/${id}`)
   },
   fetchResource({ commit }, id) {
-    return this.$axios.get(`/api/admin/resources/${id}`).then(response => {
+    return this.$axios.get(`/api/auth-service/resources/${id}`).then(response => {
       return commit("POPULATE_ROLE", response.data.result)
     })
   },
   fetchResourceList({ commit }) {
-    return this.$axios.get('/api/admin/resources').then((response) => {
+    return this.$axios.get('/api/auth-service/resources').then((response) => {
       return commit("POPULATE_ROLES", response.data.result)
     }).catch(error => {
       throw error

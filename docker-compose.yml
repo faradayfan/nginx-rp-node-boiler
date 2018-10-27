@@ -8,12 +8,12 @@ services:
       - ./manager:/usr/src/app
     command: "npm run dev"
 
-  users:
-    build: ./users
-    container_name: users
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
     restart: always
     volumes:
-      - ./users:/usr/src/app
+      - ./auth-service:/usr/src/app
     working_dir: /usr/src/app
     command: sh -c 'npm install; npm start'
     environment:
@@ -32,4 +32,4 @@ services:
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - users
+      - auth-service

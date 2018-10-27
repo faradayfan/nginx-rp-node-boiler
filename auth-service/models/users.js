@@ -6,7 +6,6 @@ const schema = {
     lastName: String,
     username: String,
     email: String,
-    admin: { type: Boolean, default: false },
     password_hash: { type: String, select: false },
     active: { type: Boolean, default: true },
     roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }]

@@ -37,7 +37,6 @@ const bootstrap_db = async () => {
         username: constants.db.users.bootstrap.username,
         firstName: constants.db.users.bootstrap.firstName,
         lastName: constants.db.users.bootstrap.lastName,
-        admin: constants.db.users.bootstrap.admin,
         roles: [role._id],
         password_hash: await bcrypt.hash(constants.db.users.bootstrap.password, constants.hash_rounds)
       })
