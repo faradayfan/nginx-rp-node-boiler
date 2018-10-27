@@ -63,7 +63,6 @@ export default {
   },
   created() {
     this.role.roleClaims = this.role.roleClaims.map(v => v._id);
-    console.log(this.role);
   },
   methods: {
     ...mapActions("roles", ["saveRole"]),

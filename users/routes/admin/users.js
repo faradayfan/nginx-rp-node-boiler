@@ -9,9 +9,9 @@ const validators = require('../../validators/admin/users')
 const responseMapper = require('../../mappings/responseMapper')
 const NotFoundError = require('../../errors/NotFoundError')
 const BadRequestError = require('../../errors/BadRequestError')
+const resourceAuthorizer = require('../../services/resourceAuthorizer')
 
-
-router.get('/', async (req, res) => {
+router.get('/', resourceAuthorizer('list', ['all']), async (req, res) => {
   try {
     const users = await User.find({})
       .populate({
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', resourceAuthorizer('create', ['self', 'all']), async (req, res) => {
   try {
     const result = Joi.validate(req.body, validators.create)
     if (result.error)
@@ -63,7 +63,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', resourceAuthorizer('view', ['all', 'self']), async (req, res) => {
   try {
     const result = await User.findById(req.params.id)
       .populate({
@@ -88,7 +88,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', resourceAuthorizer('edit', ['all', 'self']), async (req, res) => {
   try {
     const validatorResult = Joi.validate(req.body, validators.update)
     if (validatorResult.error)
@@ -119,7 +119,7 @@ router.patch('/:id', async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', resourceAuthorizer('delete', ['all']), async (req, res) => {
   try {
     const result = await User.findByIdAndRemove(req.params.id)
     if (!result)

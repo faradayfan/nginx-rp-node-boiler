@@ -9,7 +9,6 @@ const validators = require('../validators/users')
 const responseMapper = require('../mappings/responseMapper')
 const NotFoundError = require('../errors/NotFoundError')
 const BadRequestError = require('../errors/BadRequestError')
-const authorizer = require('../services/authorizer')
 
 router.post('/', async (req, res) => {
   try {
@@ -33,7 +32,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:id', authorizer('user'), async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const result = await User.findById(req.params.id)
     if (!result)
@@ -46,7 +45,7 @@ router.get('/:id', authorizer('user'), async (req, res) => {
   }
 });
 
-router.patch('/:id', authorizer('user'), async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const validatorResult = Joi.validate(req.body, validators.update)
     if (validatorResult.error)

@@ -8,7 +8,7 @@ const create = Joi.object().keys({
   lastName: Joi.string().required(),
   password: Joi.string().required(),
   email: Joi.string().required(),
-  roles: Joi.array().items(Joi.string()).required(),
+  roles: Joi.array().items(Joi.string()),
 }).required()
 
 const update = Joi.object().keys({

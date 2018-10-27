@@ -5,7 +5,6 @@ const router = express.Router()
 const jwt = require('jsonwebtoken')
 const _ = require("lodash")
 
-const authorizer = require('../services/authorizer')
 const constants = require('../constants')
 const User = require('../models/users')
 const validators = require('../validators/jwt')
@@ -44,6 +43,7 @@ router.post('/authenticate', async (req, res) => {
 
     const roleClaims = _.flatten(authedUser.roles
       .map(v => (v.roleClaims.map(r => ({
+        subject: r.subject,
         claims: r.claims,
         path: r.resource.path,
         type: r.resource.type
@@ -65,7 +65,7 @@ router.post('/authenticate', async (req, res) => {
   }
 })
 
-router.get('/authorize', authorizer(), async (req, res) => {
+router.get('/authorize', async (req, res) => {
   try {
 
     const user = await User.findById(req.jwt.id)
@@ -77,7 +77,7 @@ router.get('/authorize', authorizer(), async (req, res) => {
   }
 })
 
-router.get('/refresh', authorizer(), async (req, res) => {
+router.get('/refresh', async (req, res) => {
   try {
 
     res.json(responseMapper({

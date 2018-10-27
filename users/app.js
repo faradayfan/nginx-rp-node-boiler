@@ -9,6 +9,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('./services/jwtParser'))
 
 app.use('/api/admin', require('./routes/admin'))
 app.use('/api/auth/jwt', require('./routes/jwt'))
