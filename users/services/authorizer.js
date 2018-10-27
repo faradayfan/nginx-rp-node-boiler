@@ -16,6 +16,8 @@ module.exports = (level) => (req, res, next) => {
     } catch (error) {
       throw new UnauthorizedError("Token verification failed")
     }
+    console.log(req.jwt.claims)
+    console.log(req.url)
 
     // do some special authorizing based on the type of authorization
     // promises and switch statements can be tricky

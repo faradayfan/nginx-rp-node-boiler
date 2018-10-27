@@ -3,6 +3,7 @@ const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
+const _ = require("lodash")
 
 const authorizer = require('../services/authorizer')
 const constants = require('../constants')
@@ -26,8 +27,34 @@ router.post('/authenticate', async (req, res) => {
     const authResult = await bcrypt.compare(req.body.password, user.password_hash)
     if (!authResult)
       throw new UnauthorizedError('Authentication failed')
+
+    const authedUser = await User.findById(user._id)
+      .populate({
+        path: "roles",
+        populate: {
+          path: "roleClaims",
+          select: ["-role"],
+          populate: {
+            path: "resource",
+            select: ["-roleClaims"]
+          }
+        }
+      })
+      .exec()
+
+    const roleClaims = _.flatten(authedUser.roles
+      .map(v => (v.roleClaims.map(r => ({
+        claims: r.claims,
+        path: r.resource.path,
+        type: r.resource.type
+      })))))
+
     res.json(responseMapper({
-      jwt: jwt.sign({ id: user.id }, constants.jwt.cert,
+      jwt: jwt.sign({
+        id: authedUser._id,
+        user: authedUser,
+        claims: roleClaims
+      }, constants.jwt.cert,
         { expiresIn: constants.jwt.expire }),
       message: "Success",
     }))
