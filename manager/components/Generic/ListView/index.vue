@@ -3,9 +3,9 @@
     <thead>
       <tr>
         <th
-          v-for="key in displayKeys" 
-          :key="key"
-          scope="col">{{ key }}</th>
+          v-for="key in displaySpecifiers" 
+          :key="getKey(key)"
+          scope="col">{{ label(key) }}</th>
         <th scope="col"/>
       </tr>
     </thead>
@@ -14,8 +14,8 @@
         v-for="item in items" 
         :key="item._id">
         <td 
-          v-for="key in displayKeys" 
-          :key="key">{{ item[key] }}</td>
+          v-for="key in displaySpecifiers" 
+          :key="getKey(key)">{{ value(item, key) }}</td>
         <td>
           <div class="float-right">
             <button 
@@ -34,8 +34,8 @@
     <tfoot>
       <tr>
         <td
-          v-for="key in displayKeys" 
-          :key="key" />
+          v-for="key in displaySpecifiers" 
+          :key="getKey(key)" />
         <td>
           <div class="float-right">
             <button 
@@ -56,7 +56,7 @@ export default {
       required: true,
       default: () => []
     },
-    displayKeys: {
+    displaySpecifiers: {
       type: Array,
       required: true,
       default: () => []
@@ -80,6 +80,30 @@ export default {
       type: Function,
       required: true,
       default: console.log
+    }
+  },
+  methods: {
+    label(key) {
+      if (typeof key == "string") {
+        const pascal = key.replace(/([A-Z])/g, " $1");
+        return pascal.charAt(0).toUpperCase() + pascal.slice(1);
+      } else {
+        return key.label;
+      }
+    },
+    getKey(key) {
+      if (typeof key == "string") {
+        return key;
+      } else {
+        key.key;
+      }
+    },
+    value(item, key) {
+      if (typeof key == "string") {
+        return item[key];
+      } else {
+        return key.value(item);
+      }
     }
   }
 };

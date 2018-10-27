@@ -2,7 +2,7 @@
   <div class="container">
     <ListView
       :items="resources"
-      :display-keys="['name', 'type', 'path']"
+      :display-specifiers="['name', 'type', 'path']"
       :view-click="viewClick"
       :edit-click="editClick"
       :delete-click="deleteClick"

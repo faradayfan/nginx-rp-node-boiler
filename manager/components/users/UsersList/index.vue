@@ -2,7 +2,7 @@
   <div class="container">
     <ListView
       :items="users"
-      :display-keys="['username', 'firstName', 'lastName']"
+      :display-specifiers="['username', 'firstName', 'lastName']"
       :view-click="viewClick"
       :edit-click="editClick"
       :delete-click="deleteClick"

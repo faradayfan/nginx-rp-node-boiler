@@ -2,7 +2,7 @@
   <div class="container">
     <ListView
       :items="roles"
-      :display-keys="['name']"
+      :display-specifiers="displaySpecifiers"
       :view-click="viewClick"
       :edit-click="editClick"
       :delete-click="deleteClick"
@@ -15,6 +15,9 @@ import { mapGetters, mapActions } from "vuex";
 import ListView from "../../Generic/ListView";
 export default {
   components: { ListView },
+  data: () => ({
+    displaySpecifiers: ["name"]
+  }),
   computed: {
     ...mapGetters("roles", {
       roles: "roleList"

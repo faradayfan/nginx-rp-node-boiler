@@ -2,7 +2,7 @@
   <div class="container">
     <ListView
       :items="roleClaims"
-      :display-keys="['resource', 'subject', 'claims']"
+      :display-specifiers="displaySpecifiers"
       :view-click="viewClick"
       :edit-click="editClick"
       :delete-click="deleteClick"
@@ -15,6 +15,21 @@ import { mapGetters, mapActions } from "vuex";
 import ListView from "../../Generic/ListView";
 export default {
   components: { ListView },
+  data: () => ({
+    displaySpecifiers: [
+      {
+        key: "resource",
+        label: "Resource",
+        value: v => `${v.resource.name} (${v.resource.path})`
+      },
+      "subject",
+      {
+        key: "claims",
+        label: "Claims",
+        value: v => v.claims.join(", ")
+      }
+    ]
+  }),
   computed: {
     ...mapGetters("roleClaims", {
       roleClaims: "roleClaimList"
