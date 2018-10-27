@@ -17,25 +17,19 @@ const bootstrap_db = async () => {
         ...constants.db.resources.bootstrap,
       })
 
-    const adminRoleCount = await Role.where({ name: constants.db.roles.bootstrap.name }).countDocuments()
-    if (adminRoleCount == 0)
-      role = await Role.create({
-        ...constants.db.roles.bootstrap,
-      })
-
     const adminRoleClaimCount = await RoleClaim.find({}).countDocuments()
     if (adminRoleClaimCount == 0)
       roleClaim = await RoleClaim.create({
-        role: role._id,
         resource: resource._id,
         ...constants.db.roleClaims.bootstrap
       })
 
-    resource.roleClaims.push(roleClaim._id)
-    resource.save()
-
-    role.roleClaims.push(roleClaim._id)
-    role.save()
+    const adminRoleCount = await Role.where({ name: constants.db.roles.bootstrap.name }).countDocuments()
+    if (adminRoleCount == 0)
+      role = await Role.create({
+        ...constants.db.roles.bootstrap,
+        roleClaims: [roleClaim._id]
+      })
 
     const userCount = await User.where({ admin: true }).countDocuments()
     if (userCount == 0)

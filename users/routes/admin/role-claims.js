@@ -13,8 +13,10 @@ const BadRequestError = require('../../errors/BadRequestError')
 router.get('/', async (req, res) => {
   try {
     const rc = await RoleClaim.find({})
-      .populate('role')
-      .populate('resource')
+      .populate({
+        path: "resource",
+        select: "-roleClaims"
+      })
       .exec()
     res.json(responseMapper(rc))
   } catch (error) {
@@ -43,8 +45,10 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const result = await RoleClaim.findById(req.params.id)
-      .populate('role')
-      .populate('resource')
+      .populate({
+        path: "resource",
+        select: "-roleClaims"
+      })
       .exec()
     if (!result)
       throw new NotFoundError('Entity not found')

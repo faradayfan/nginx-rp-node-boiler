@@ -14,7 +14,17 @@ const BadRequestError = require('../../errors/BadRequestError')
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({})
-      .populate("roles")
+      .populate({
+        path: "roles",
+        populate: {
+          path: "roleClaims",
+          select: ["-role"],
+          populate: {
+            path: "resource",
+            select: ["-roleClaims"]
+          }
+        }
+      })
       .exec()
 
     res.json(responseMapper(users))
@@ -60,7 +70,11 @@ router.get('/:id', async (req, res) => {
         path: "roles",
         populate: {
           path: "roleClaims",
-          populate: "resources"
+          select: ["-role"],
+          populate: {
+            path: "resource",
+            select: ["-roleClaims"]
+          }
         }
       })
       .exec()

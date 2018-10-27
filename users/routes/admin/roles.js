@@ -14,7 +14,13 @@ router.get('/', async (req, res) => {
   try {
 
     const roles = await Role.find({})
-      .populate("roleClaims")
+      .populate({
+        path: "roleClaims",
+        populate: {
+          path: "resource",
+          select: ["-roleClaims"]
+        }
+      })
       .exec()
     res.json(responseMapper(roles))
   } catch (error) {
@@ -43,7 +49,14 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const result = await Role.findById(req.params.id)
-      .populate("roleClaims")
+      .populate({
+        path: "roleClaims",
+        select: ["-role"],
+        populate: {
+          path: "resource",
+          select: ["-roleClaims"]
+        }
+      })
       .exec()
     if (!result)
       throw new NotFoundError('Entity not found')
