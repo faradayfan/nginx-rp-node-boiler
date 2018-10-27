@@ -1,11 +1,11 @@
 version: "3"
 services:
-  manager:
-    build: ./manager
-    container_name: manager
+  auth-manager:
+    build: ./auth-manager
+    container_name: auth-manager
     restart: always
     volumes:
-      - ./manager:/usr/src/app
+      - ./auth-manager:/usr/src/app
     command: "npm run dev"
 
   auth-service:

@@ -1,4 +1,4 @@
-# manager
+# Auth Manager
 
 > My unreal Nuxt.js project
 
