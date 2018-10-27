@@ -59,17 +59,6 @@
       <div 
         class="form-check">
         <input 
-          id="admin"
-          v-model="user.admin"
-          type="checkbox" 
-          class="form-check-input">
-        <label 
-          class="form-check-label" 
-          for="admin">Admin</label>
-      </div>
-      <div 
-        class="form-check">
-        <input 
           id="active"
           v-model="user.active"
           type="checkbox" 
@@ -77,6 +66,21 @@
         <label 
           class="form-check-label" 
           for="active">Active</label>
+      </div>
+      <div 
+        class="form-group">
+        <label
+          for="resource">Roles</label>
+        <select
+          id="resource"
+          v-model="user.roles"
+          class="form-control"
+          multiple>
+          <option 
+            v-for="role in roles" 
+            :key="role._id"
+            :value="role._id">{{ role.name }}</option>
+        </select>
       </div>
       <div
         class="right">
@@ -95,7 +99,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -106,10 +110,15 @@ export default {
         username: "",
         email: "",
         password: "",
-        admin: false,
+        roles: [],
         active: true
       }
     };
+  },
+  computed: {
+    ...mapGetters("roles", {
+      roles: "roleList"
+    })
   },
   methods: {
     submit() {

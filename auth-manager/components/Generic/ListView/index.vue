@@ -1,51 +1,44 @@
 <template>
-  <table class="table table-bordered table-sm">
-    <thead>
-      <tr>
-        <th
-          v-for="key in displaySpecifiers" 
-          :key="getKey(key)"
-          scope="col">{{ label(key) }}</th>
-        <th scope="col"/>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="item in items" 
-        :key="item._id">
-        <td 
-          v-for="key in displaySpecifiers" 
-          :key="getKey(key)">{{ value(item, key) }}</td>
-        <td>
-          <div class="float-right">
-            <button 
-              class="btn btn-primary btn-sm"
-              @click="viewClick(item)">View</button>
-            <button 
-              class="btn btn-primary btn-sm"
-              @click="editClick(item)">Edit</button>
-            <button 
-              class="btn btn-danger btn-sm"
-              @click="deleteClick(item)">Delete</button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td
-          v-for="key in displaySpecifiers" 
-          :key="getKey(key)" />
-        <td>
-          <div class="float-right">
-            <button 
-              class="btn btn-primary btn-sm"
-              @click="createClick()">Create</button>
-          </div>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th
+            v-for="key in displaySpecifiers" 
+            :key="getKey(key)"
+            scope="col">{{ label(key) }}</th>
+          <th scope="col"/>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in items" 
+          :key="item._id">
+          <td 
+            v-for="key in displaySpecifiers" 
+            :key="getKey(key)">{{ value(item, key) }}</td>
+          <td>
+            <div class="float-right">
+              <button 
+                class="btn btn-primary btn-sm"
+                @click="viewClick(item)">View</button>
+              <button 
+                class="btn btn-primary btn-sm"
+                @click="editClick(item)">Edit</button>
+              <button 
+                class="btn btn-danger btn-sm"
+                @click="deleteClick(item)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="float-right">
+      <button 
+        class="btn btn-primary btn-sm"
+        @click="createClick()">Create</button>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -59,17 +59,6 @@
       <div 
         class="form-check">
         <input 
-          id="admin"
-          v-model="user.admin"
-          type="checkbox" 
-          class="form-check-input">
-        <label 
-          class="form-check-label" 
-          for="admin">Admin</label>
-      </div>
-      <div 
-        class="form-check">
-        <input 
           id="active"
           v-model="user.active"
           type="checkbox" 
@@ -77,6 +66,21 @@
         <label 
           class="form-check-label" 
           for="active">Active</label>
+      </div>
+      <div 
+        class="form-group">
+        <label
+          for="resource">Roles</label>
+        <select
+          id="resource"
+          v-model="user.roles"
+          class="form-control"
+          multiple>
+          <option 
+            v-for="role in roles" 
+            :key="role._id"
+            :value="role._id">{{ role.name }}</option>
+        </select>
       </div>
       <div
         class="right">
@@ -103,12 +107,14 @@ export default {
       error: null,
       user: {
         ...context.$store.state.users.user,
+        roles: context.$store.state.users.user.roles.map(v => v._id),
         password: ""
       }
     };
   },
   computed: {
-    ...mapGetters("users", { storeUser: "user" })
+    ...mapGetters("users", { storeUser: "user" }),
+    ...mapGetters("roles", { roles: "roleList" })
   },
   methods: {
     ...mapActions("users", ["saveUser"]),
