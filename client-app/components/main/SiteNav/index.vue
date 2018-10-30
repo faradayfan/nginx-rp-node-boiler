@@ -4,7 +4,7 @@
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <nuxt-link 
           class="navbar-brand" 
-          to="/">My App</nuxt-link>
+          to="/"><i class="fas fa-asterisk"/></nuxt-link>
         <button 
           class="navbar-toggler" 
           type="button" 
