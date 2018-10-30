@@ -12,7 +12,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import ListView from "../../Generic/ListView";
+import ListView from "@/components/Generic/ListView";
 export default {
   components: { ListView },
   computed: {
@@ -22,13 +22,13 @@ export default {
   },
   methods: {
     viewClick(user) {
-      this.$router.push(`/user/${user._id}`);
+      this.$router.push(`/admin/user/${user._id}`);
     },
     editClick(user) {
-      this.$router.push(`/user/${user._id}/edit`);
+      this.$router.push(`/admin/user/${user._id}/edit`);
     },
     createClick() {
-      this.$router.push("/user/create");
+      this.$router.push("/admin/user/create");
     },
     deleteClick(user) {
       const decision = confirm(

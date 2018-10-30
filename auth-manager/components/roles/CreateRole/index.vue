@@ -64,7 +64,7 @@ export default {
     submit() {
       this.createRole(this.role)
         .then(() => {
-          this.$router.push("/roles");
+          this.$router.push("/admin/roles");
         })
         .catch(error => {
           this.error = error;

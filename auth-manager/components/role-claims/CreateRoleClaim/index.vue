@@ -82,7 +82,7 @@ export default {
     submit() {
       this.createRoleClaim(this.roleClaim)
         .then(() => {
-          this.$router.push("/role-claims");
+          this.$router.push("/admin/role-claims");
         })
         .catch(error => {
           this.error = error;

@@ -22,13 +22,13 @@ export default {
   },
   methods: {
     viewClick(resource) {
-      this.$router.push(`/resource/${resource._id}`);
+      this.$router.push(`/admin/resource/${resource._id}`);
     },
     editClick(resource) {
-      this.$router.push(`/resource/${resource._id}/edit`);
+      this.$router.push(`/admin/resource/${resource._id}/edit`);
     },
     createClick() {
-      this.$router.push(`/resource/create`);
+      this.$router.push(`/admin/resource/create`);
     },
     deleteClick(resource) {
       const decision = confirm(

@@ -75,7 +75,7 @@ export default {
       if (_.keysIn(obj).length > 0)
         return this.saveResource({ id: this.storeResource._id, resource: obj })
           .then(() => {
-            this.$router.push("/resources");
+            this.$router.push("/admin/resources");
           })
           .catch(error => {
             this.error = error;

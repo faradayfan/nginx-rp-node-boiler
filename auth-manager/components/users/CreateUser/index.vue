@@ -124,7 +124,7 @@ export default {
     submit() {
       this.createUser(this.user)
         .then(() => {
-          this.$router.push("/users");
+          this.$router.push("/admin/users");
         })
         .catch(error => {
           this.error = error;

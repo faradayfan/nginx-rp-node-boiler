@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ObjectView from "../../Generic/ObjectView";
+import ObjectView from "@/components/Generic/ObjectView";
 export default {
   components: { ObjectView },
   computed: {

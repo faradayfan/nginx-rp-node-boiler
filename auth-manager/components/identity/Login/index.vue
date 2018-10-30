@@ -48,7 +48,7 @@ export default {
     submitLogin() {
       this.login({ username: this.username, password: this.password })
         .then(() => {
-          this.$router.push("/users");
+          this.$router.push("/admin/users");
         })
         .catch(error => (this.error = error));
     },

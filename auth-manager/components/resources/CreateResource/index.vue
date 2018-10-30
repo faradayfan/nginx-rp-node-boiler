@@ -67,7 +67,7 @@ export default {
     submit() {
       this.createResource(this.resource)
         .then(() => {
-          this.$router.push("/resources");
+          this.$router.push("/admin/resources");
         })
         .catch(error => {
           this.error = error;

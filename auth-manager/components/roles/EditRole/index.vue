@@ -74,7 +74,7 @@ export default {
       if (_.keysIn(obj).length > 0)
         return this.saveRole({ id: this.storeRole._id, role: obj })
           .then(() => {
-            this.$router.push("/roles");
+            this.$router.push("/admin/roles");
           })
           .catch(error => {
             this.error = error;

@@ -127,7 +127,7 @@ export default {
       if (_.keysIn(obj).length > 0)
         return this.saveUser({ id: this.storeUser._id, user: obj })
           .then(() => {
-            this.$router.push("/users");
+            this.$router.push("/admin/users");
           })
           .catch(error => {
             this.error = error;

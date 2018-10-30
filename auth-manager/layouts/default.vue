@@ -24,28 +24,28 @@
               class="nav-item">
               <nuxt-link 
                 class="nav-link" 
-                to="/users">Users</nuxt-link>
+                to="/admin/users">Users</nuxt-link>
             </li>
             <li
               v-if="isAuthenticated"
               class="nav-item">
               <nuxt-link 
                 class="nav-link" 
-                to="/roles">Roles</nuxt-link>
+                to="/admin/roles">Roles</nuxt-link>
             </li>
             <li
               v-if="isAuthenticated"
               class="nav-item">
               <nuxt-link 
                 class="nav-link" 
-                to="/role-claims">Claims</nuxt-link>
+                to="/admin/role-claims">Claims</nuxt-link>
             </li>
             <li
               v-if="isAuthenticated"
               class="nav-item">
               <nuxt-link 
                 class="nav-link" 
-                to="/resources">Resources</nuxt-link>
+                to="/admin/resources">Resources</nuxt-link>
             </li>
             <li 
               v-if="isAuthenticated"

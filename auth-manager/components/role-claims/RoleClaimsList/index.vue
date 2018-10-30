@@ -37,13 +37,13 @@ export default {
   },
   methods: {
     viewClick(roleClaim) {
-      this.$router.push(`/role-claim/${roleClaim._id}`);
+      this.$router.push(`/admin/role-claim/${roleClaim._id}`);
     },
     editClick(roleClaim) {
-      this.$router.push(`/role-claim/${roleClaim._id}/edit`);
+      this.$router.push(`/admin/role-claim/${roleClaim._id}/edit`);
     },
     createClick() {
-      this.$router.push(`/role-claim/create`);
+      this.$router.push(`/admin/role-claim/create`);
     },
     deleteClick(roleClaim) {
       if (roleClaim.role) {

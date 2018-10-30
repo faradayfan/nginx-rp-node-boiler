@@ -25,13 +25,13 @@ export default {
   },
   methods: {
     viewClick(role) {
-      this.$router.push(`/role/${role._id}`);
+      this.$router.push(`/admin/role/${role._id}`);
     },
     editClick(role) {
-      this.$router.push(`/role/${role._id}/edit`);
+      this.$router.push(`/admin/role/${role._id}/edit`);
     },
     createClick() {
-      this.$router.push(`/role/create`);
+      this.$router.push(`/admin/role/create`);
     },
     deleteClick(role) {
       const decision = confirm(
