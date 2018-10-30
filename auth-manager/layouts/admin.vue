@@ -14,6 +14,7 @@ import SiteNav from "@/components/main/SiteNav";
 import SubNav from "@/components/Generic/SubNav";
 export default {
   components: { SubNav, SiteNav },
+  middleware: "admin",
   data() {
     return {
       mainNav: [

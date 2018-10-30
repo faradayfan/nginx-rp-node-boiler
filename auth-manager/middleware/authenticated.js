@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 
 export default function ({ store, redirect }) {
   if (!store.getters["identity/isAuthenticated"]) {

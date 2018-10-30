@@ -48,5 +48,8 @@ export const getters = {
   },
   isAuthenticated(state) {
     return Boolean(state.loginStatus && state.loginStatus.jwt && state.loginStatus.user)
+  },
+  isAdmin(state) {
+    return Boolean(state && state.loginStatus && state.loginStatus.isAdmin)
   }
 }
