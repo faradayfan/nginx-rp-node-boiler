@@ -4,7 +4,7 @@
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <nuxt-link 
           class="navbar-brand" 
-          to="/">My Site</nuxt-link>
+          to="/">My App</nuxt-link>
         <button 
           class="navbar-toggler" 
           type="button" 
@@ -26,26 +26,35 @@
                 class="nav-link" 
                 to="/app">App</nuxt-link>
             </li>
+          </ul>
+          <ul class="navbar-nav my-2 my-lg-0">
             <li
-              v-if="isAuthenticated"
+              v-if="isAdmin && isAuthenticated"
               class="nav-item">
               <nuxt-link 
                 class="nav-link" 
-                to="/admin">Admin</nuxt-link>
+                to="/admin"><i class="fas fa-cogs"/></nuxt-link>
             </li>
             <li 
               v-if="isAuthenticated"
               class="nav-item">
-              <a 
+              <nuxt-link 
                 class="nav-link" 
-                @click="submitLogout">Logout</a>
+                to="/profile"><i class="fas fa-user-circle"/></nuxt-link >
+            </li>
+            <li 
+              v-if="isAuthenticated"
+              class="nav-item">
+              <nuxt-link 
+                class="nav-link" 
+                to="/logout"><i class="fas fa-sign-out-alt"/></nuxt-link >
             </li>
             <li
               v-if="!isAuthenticated"
               class="nav-item">
               <nuxt-link 
                 class="nav-link" 
-                to="/login">Login</nuxt-link >
+                to="/login"><i class="fas fa-sign-in-alt"/></nuxt-link >
             </li>
           </ul>
         </div>
@@ -59,16 +68,9 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapGetters("identity", {
-      isAuthenticated: "isAuthenticated"
+      isAuthenticated: "isAuthenticated",
+      isAdmin: "isAdmin"
     })
-  },
-  methods: {
-    ...mapActions("identity", ["logout"]),
-    submitLogout() {
-      this.logout().then(() => {
-        this.$router.push("/login");
-      });
-    }
   }
 };
 </script>

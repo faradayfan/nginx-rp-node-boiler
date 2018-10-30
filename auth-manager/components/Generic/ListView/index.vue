@@ -21,13 +21,13 @@
             <div class="float-right">
               <button 
                 class="btn btn-primary btn-sm"
-                @click="viewClick(item)">View</button>
+                @click="viewClick(item)"><i class="fas fa-eye"/></button>
               <button 
                 class="btn btn-primary btn-sm"
-                @click="editClick(item)">Edit</button>
+                @click="editClick(item)"><i class="fas fa-edit"/></button>
               <button 
                 class="btn btn-danger btn-sm"
-                @click="deleteClick(item)">Delete</button>
+                @click="deleteClick(item)"><i class="fas fa-trash-alt"/></button>
             </div>
           </td>
         </tr>
@@ -36,7 +36,7 @@
     <div class="float-right">
       <button 
         class="btn btn-primary btn-sm"
-        @click="createClick()">Create</button>
+        @click="createClick()"><i class="fas fa-plus"/></button>
     </div>
   </div>
 </template>

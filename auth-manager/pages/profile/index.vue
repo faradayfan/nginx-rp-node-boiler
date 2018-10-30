@@ -1,6 +1,6 @@
 <template>
   <div>
-    app
+    profile
   </div>
 </template>
 
