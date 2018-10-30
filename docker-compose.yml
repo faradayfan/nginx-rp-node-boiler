@@ -1,11 +1,11 @@
 version: "3"
 services:
-  auth-manager:
-    build: ./auth-manager
-    container_name: auth-manager
+  client-app:
+    build: ./client-app
+    container_name: client-app
     restart: always
     volumes:
-      - ./auth-manager:/usr/src/app
+      - ./client-app:/usr/src/app
     command: sh -c 'npm install; npm run dev'
 
   auth-service:
