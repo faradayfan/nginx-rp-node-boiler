@@ -5,6 +5,7 @@
 <script>
 import ViewResource from "@/components/resources/ViewResource";
 export default {
+  layout: "admin",
   components: { ViewResource },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {

@@ -5,6 +5,7 @@
 <script>
 import EditUser from "@/components/users/EditUser";
 export default {
+  layout: "admin",
   components: { EditUser },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {

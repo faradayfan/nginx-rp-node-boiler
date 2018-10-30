@@ -5,6 +5,7 @@
 <script>
 import CreateRoleClaim from "@/components/role-claims/CreateRoleClaim";
 export default {
+  layout: "admin",
   components: { CreateRoleClaim },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {

@@ -5,6 +5,7 @@
 <script>
 import EditRole from "@/components/roles/EditRole";
 export default {
+  layout: "admin",
   components: { EditRole },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {

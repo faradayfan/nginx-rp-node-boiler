@@ -5,6 +5,7 @@
 <script>
 import ViewRoleClaim from "@/components/role-claims/ViewRoleClaim";
 export default {
+  layout: "admin",
   components: { ViewRoleClaim },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {

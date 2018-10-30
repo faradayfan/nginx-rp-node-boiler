@@ -5,6 +5,7 @@
 <script>
 import CreateRole from "@/components/roles/CreateRole";
 export default {
+  layout: "admin",
   components: { CreateRole },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {

@@ -6,6 +6,7 @@
 import ResourcesList from "@/components/resources/ResourcesList";
 import { mapGetters } from "vuex";
 export default {
+  layout: "admin",
   components: { ResourcesList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {

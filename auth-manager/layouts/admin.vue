@@ -16,7 +16,24 @@ export default {
   components: { SubNav, SiteNav },
   data() {
     return {
-      mainNav: []
+      mainNav: [
+        {
+          path: "/admin/users",
+          label: "Users"
+        },
+        {
+          path: "/admin/roles",
+          label: "Roles"
+        },
+        {
+          path: "/admin/role-claims",
+          label: "Claims"
+        },
+        {
+          path: "/admin/resources",
+          label: "Resources"
+        }
+      ]
     };
   }
 };

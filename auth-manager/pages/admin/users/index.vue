@@ -6,6 +6,7 @@
 import UsersList from "@/components/users/UsersList";
 import { mapGetters } from "vuex";
 export default {
+  layout: "admin",
   components: { UsersList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {

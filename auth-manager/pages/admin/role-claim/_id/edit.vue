@@ -5,6 +5,7 @@
 <script>
 import EditRoleClaim from "@/components/role-claims/EditRoleClaim";
 export default {
+  layout: "admin",
   components: { EditRoleClaim },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {

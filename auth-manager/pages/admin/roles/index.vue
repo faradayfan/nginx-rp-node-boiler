@@ -6,6 +6,7 @@
 import RolesList from "@/components/roles/RolesList";
 import { mapGetters } from "vuex";
 export default {
+  layout: "admin",
   components: { RolesList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
