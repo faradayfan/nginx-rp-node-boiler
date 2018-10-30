@@ -69,7 +69,26 @@ router.get('/authorize', async (req, res) => {
   try {
 
     const user = await User.findById(req.jwt.id)
-    res.json(responseMapper({ jwt_decoded: req.jwt, user }))
+      .populate({
+        path: "roles",
+        populate: {
+          path: "roleClaims",
+          select: ["-role"],
+          populate: {
+            path: "resource",
+            select: ["-roleClaims"]
+          }
+        }
+      })
+      .exec()
+
+    const isAdmin = user.roles.map(v => v.name.toLowerCase()).includes('admin')
+
+    res.json(responseMapper({
+      jwt_decoded: req.jwt,
+      user,
+      isAdmin
+    }))
   } catch (error) {
     console.log(error)
     const errorModel = responseMapper(error)
