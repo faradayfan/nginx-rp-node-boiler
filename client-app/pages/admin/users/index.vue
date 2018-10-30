@@ -3,14 +3,13 @@
 </template>
 
 <script>
-import UsersList from "@/components/users/UsersList";
-import { mapGetters } from "vuex";
+import UsersList from "@/components/admin/users/UsersList";
 export default {
   layout: "admin",
   components: { UsersList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
-    return dispatch("users/fetchUserList");
+    return dispatch("admin/users/fetchUserList");
   }
 };
 </script>

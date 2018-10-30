@@ -3,15 +3,15 @@
 </template>
 
 <script>
-import EditUser from "@/components/users/EditUser";
+import EditUser from "@/components/admin/users/EditUser";
 export default {
   layout: "admin",
   components: { EditUser },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {
     return Promise.all([
-      dispatch("users/fetchUser", id),
-      dispatch("roles/fetchRoleList")
+      dispatch("admin/users/fetchUser", id),
+      dispatch("admin/roles/fetchRoleList")
     ]);
   }
 };

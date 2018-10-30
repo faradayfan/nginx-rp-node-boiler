@@ -3,14 +3,13 @@
 </template>
 
 <script>
-import RolesList from "@/components/roles/RolesList";
-import { mapGetters } from "vuex";
+import RolesList from "@/components/admin/roles/RolesList";
 export default {
   layout: "admin",
   components: { RolesList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
-    return dispatch("roles/fetchRoleList");
+    return dispatch("admin/roles/fetchRoleList");
   }
 };
 </script>

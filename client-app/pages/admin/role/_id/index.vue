@@ -3,13 +3,13 @@
 </template>
 
 <script>
-import ViewRole from "@/components/roles/ViewRole";
+import ViewRole from "@/components/admin/roles/ViewRole";
 export default {
   layout: "admin",
   components: { ViewRole },
   middleware: "authenticated",
   fetch({ store: { dispatch }, params: { id } }) {
-    return dispatch("roles/fetchRole", id);
+    return dispatch("admin/roles/fetchRole", id);
   }
 };
 </script>

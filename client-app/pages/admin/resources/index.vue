@@ -3,14 +3,13 @@
 </template>
 
 <script>
-import ResourcesList from "@/components/resources/ResourcesList";
-import { mapGetters } from "vuex";
+import ResourcesList from "@/components/admin/resources/ResourcesList";
 export default {
   layout: "admin",
   components: { ResourcesList },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
-    return dispatch("resources/fetchResourceList");
+    return dispatch("admin/resources/fetchResourceList");
   }
 };
 </script>

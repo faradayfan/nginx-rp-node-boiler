@@ -3,15 +3,15 @@
 </template>
 
 <script>
-import CreateRole from "@/components/roles/CreateRole";
+import CreateRole from "@/components/admin/roles/CreateRole";
 export default {
   layout: "admin",
   components: { CreateRole },
   middleware: "authenticated",
   fetch({ store: { dispatch } }) {
     return Promise.all([
-      dispatch("roleClaims/fetchRoleClaimList"),
-      dispatch("users/fetchUserList")
+      dispatch("admin/roleClaims/fetchRoleClaimList"),
+      dispatch("admin/users/fetchUserList")
     ]);
   }
 };

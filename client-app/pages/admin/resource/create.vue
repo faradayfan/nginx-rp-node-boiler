@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import CreateResource from "@/components/resources/CreateResource";
+import CreateResource from "@/components/admin/resources/CreateResource";
 export default {
   layout: "admin",
   components: { CreateResource },
